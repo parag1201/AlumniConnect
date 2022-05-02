@@ -20,11 +20,6 @@ const PostSchema = new Schema({
 	avatar: {
 		type: String,
 	},
-	images: [
-		{
-			type: String,
-		},
-	],
 	visibility: [
 		{
 			type: String,

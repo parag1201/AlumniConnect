@@ -12,7 +12,7 @@ module.exports = async function (req, res, next) {
 	}
 
 	try {
-		const decoded = jwt.verify(token, config.get("privateKey"));
+		const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 		const thisUser = await User.findById(decoded.user.id);
 
 		if (!thisUser.isAdmin) {

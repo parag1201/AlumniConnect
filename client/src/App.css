@@ -331,9 +331,9 @@ tr > .btn {
 
 .profile-card {
 	display: flex;
-	margin-bottom: 1em;
-	padding: 1.5em;
 	border-radius: 5px;
+	margin-bottom: 1em;
+	margin-top: 0em;
 }
 .round-img {
 	width: 100%;
@@ -359,31 +359,27 @@ tr > .btn {
 }
 
 .profile-grid {
-	display: grid;
+	/* display: grid;
 	grid-template-areas:
 		"top top"
-		"about about"
-		"exp edu"
-		"github github";
-	grid-gap: 1rem;
+		"exp edu";
+	grid-gap: 1rem; */
 }
 
 .profile-top {
-	grid-area: top;
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
+	flex-direction: row;
+	width: 100%;
 }
 
 .profile-top img {
 	width: 250px;
 }
 
+/* 
 .profile-top .icons a {
 	margin: 0 0.3rem;
-}
+} */
 
 .fa-globe {
 	margin-right: 0.7em;
@@ -679,7 +675,7 @@ span {
 
 .admin-side-nav {
 	background-color: rgba(243, 244, 246);
-	min-height: 87vh;
+	min-height: 91vh;
 	padding-left: 0;
 	padding-right: 0;
 }
@@ -863,7 +859,6 @@ textarea:focus {
 
 .tag:hover {
 	text-decoration: none;
-	cursor: pointer;
 	background: #caf4ff;
 }
 
@@ -935,15 +930,14 @@ textarea:focus {
     margin-top:20px;
     background:#eee;    
 } */
-a {
+/* a {
 	color: #f96332;
-}
+} */
 .m-t-5 {
 	margin-top: 5px;
 }
 .card {
-	background: #fff;
-	margin-bottom: 30px;
+	background: #eee;
 	transition: 0.5s;
 	border: 0;
 	border-radius: 0.1875rem;
@@ -951,11 +945,12 @@ a {
 	position: relative;
 	width: 100%;
 	box-shadow: none;
+	height: 100%;
+	padding: 0.5em;
 }
 .card .body {
 	font-size: 14px;
 	color: #424242;
-	padding: 20px;
 	font-weight: 400;
 }
 .profile-page .profile-header {
@@ -1019,18 +1014,221 @@ a {
 }
 
 .time {
-    font-size: 9px !important
+	font-size: 9px !important;
 }
 
 .socials i {
-    margin-right: 14px;
-    font-size: 17px;
-    color: #d2c8c8;
-    cursor: pointer
+	margin-right: 14px;
+	font-size: 17px;
+	color: #d2c8c8;
+	cursor: pointer;
 }
 
 .feed-image img {
-    width: 100%;
-    height: auto
+	width: 100%;
+	height: auto;
 }
 
+.grid-container {
+	display: grid;
+	grid-template-columns: auto auto;
+	column-gap: 20px;
+	row-gap: 50px;
+	padding: 2px;
+	margin: auto auto;
+}
+
+.grid-item {
+	border: 1px solid rgb(216, 212, 212);
+	/* padding: 20px; */
+	font-size: 30px;
+	text-align: center;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 16px;
+}
+
+.bg-grey {
+	background: #eee;
+}
+
+.profile-tag {
+	background: rgb(178 12 12);
+	border-radius: 3px 0 0 3px;
+	color: white;
+	display: inline-block;
+	height: 26px;
+	line-height: 26px;
+	padding: 0 20px 0 23px;
+	position: relative;
+	margin: auto;
+	margin-top: 10px;
+	text-decoration: none;
+	width: 100px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.profile-stats {
+    margin-top: 2.3rem;
+}
+
+.profile-stats li {
+    display: inline-block;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-right: 4rem;
+    cursor: pointer;
+}
+
+.profile-stats li:first-of-type {
+    margin-left: 0;
+}
+
+.profile-stats li:last-of-type {
+    margin-right: 0;
+}
+
+/* .profile-stat-count,
+.profile-edit-btn {
+    font-weight: 600;
+} */
+
+/* @media screen and (max-width: 40rem) {
+    .profile {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 4rem 0;
+    }
+
+    .profile::after {
+        display: none;
+    }
+
+    .profile-image,
+    .profile-user-settings,
+    .profile-bio,
+    .profile-stats {
+        float: none;
+        width: auto;
+    }
+
+    .profile-image img {
+        width: 7.7rem;
+    }
+
+    .profile-user-settings {
+        flex-basis: calc(100% - 10.7rem);
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .profile-user-name {
+        font-size: 2.2rem;
+    }
+
+    .profile-edit-btn {
+        order: 1;
+        padding: 0;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .profile-edit-btn {
+        margin-left: 0;
+    }
+
+    .profile-bio {
+        font-size: 1.4rem;
+        margin-top: 1.5rem;
+    }
+
+    .profile-edit-btn,
+    .profile-bio,
+    .profile-stats {
+        flex-basis: 100%;
+    }
+
+    .profile-stats {
+        order: 1;
+        margin-top: 1.5rem;
+    }
+
+    .profile-stats ul {
+        display: flex;
+        text-align: center;
+        padding: 1.2rem 0;
+        border-top: 0.1rem solid #dadada;
+        border-bottom: 0.1rem solid #dadada;
+    }
+
+    .profile-stats li {
+        font-size: 1.4rem;
+        flex: 1;
+        margin: 0;
+    }
+
+    .profile-stat-count {
+        display: block;
+    }
+} */
+
+.profile-buttons {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+.profile-edit-btn {
+	font-size: 1.2rem;
+    line-height: 1.8;
+    border: 0.1rem solid #dbdbdb;
+    border-radius: 0.3rem;
+    padding: 0 2.4rem;
+    margin-left: 1rem;
+	margin-right: 1rem;
+	background: white;
+}
+
+.profile-edit-btn:hover {
+	background: lightgray;
+}
+
+.user-type-count {
+  background-color: #e1ecf4;
+  border-radius: 10px;
+  border: 1px solid #7aa7c7;
+  box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #39739d;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.user-type-count:hover,
+.user-type-count:focus {
+  background-color: #b3d3ea;
+  color: #2c5777;
+}
+
+.user-type-count:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.user-type-count:active {
+  background-color: #a0c7e4;
+  box-shadow: none;
+  color: #2c5777;
+}

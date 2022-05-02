@@ -14,7 +14,7 @@ const Dashboard = ({ closeSideNav, auth: { authUser, loadingAuth } }) => {
 		closeSideNav();
 	}, [getCurrentUserProfile]);
 
-	return (loadingAuth || authUser === null) ? (
+	return loadingAuth || authUser === null ? (
 		<Spinner />
 	) : (
 		<React.Fragment>
@@ -31,21 +31,85 @@ const Dashboard = ({ closeSideNav, auth: { authUser, loadingAuth } }) => {
 						<DashboardActions />
 					</div>
 					<div className="col-md-9">
-						<div className="user-info">
-							<img
-								className="round-img profile-card-img"
-								src={authUser.avatar}
-								alt="avatar"
-							/>
-							{authUser.name}
-							{authUser.role === "student" && (
-								<React.Fragment>
-									Student @ IIITA
-									{authUser.starting_year}-{authUser.passing_year}
-									{authUser.program}
-								</React.Fragment>
-							)}
+						<div
+							className="row"
+							style={{ padding: "1em 1em", margin: "1em 2em" }}
+						>
+							<div className="profile-image float-md-right">
+								<img
+									src={authUser.avatar}
+									alt="avatar"
+									style={{
+										width: "100px",
+										height: "100px",
+										borderRadius: "50%",
+									}}
+								/>
+							</div>
+							<span>{authUser.name}</span>
+							<span className="job_post">
+									{authUser.role === "alumni" && (
+										<span
+											style={{
+												textTransform: "capitalize",
+											}}
+										>
+											{authUser.designation}
+											{" @ "}
+											{authUser.organisation}
+										</span>
+									)}
+
+									{authUser.role === "student" &&
+										"Student @ IIITA"}
+
+									{authUser.role === "faculty" && (
+										<span
+											style={{
+												textTransform: "capitalize",
+											}}
+										>
+											{authUser.designation}
+										</span>
+									)}
+
+									{authUser.role === "faculty" &&
+										"@ Department of"}
+
+									{authUser.role === "faculty" && (
+										<span
+											style={{
+												textTransform: "uppercase",
+											}}
+										>
+											{authUser.department}
+										</span>
+									)}
+								</span>
+
+								{authUser.role === "student" && (
+									<p>
+										{authUser.starting_year}-
+										{authUser.passing_year}
+									</p>
+								)}
+
+								{authUser.role === "alumni" && (
+									<div>
+										<p style={{ marginBottom: "0" }}>
+											{authUser.location}
+										</p>
+										{/* <br/> */}
+										<p>
+											{"Alumni @ IIITA"}
+											{" ( "}
+											{authUser.passing_year}
+											{" Passout )"}
+										</p>
+									</div>
+								)}
 						</div>
+						
 						<Experience experience={authUser.experience} />
 						<Education education={authUser.education} />
 					</div>
@@ -72,6 +136,7 @@ const mapStateToProps = (state) => ({
 	auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCurrentUserProfile, closeSideNav })(
-	Dashboard
-);
+export default connect(mapStateToProps, {
+	getCurrentUserProfile,
+	closeSideNav,
+})(Dashboard);

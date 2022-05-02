@@ -31,7 +31,7 @@ const PostDisplay = ({
 		<Fragment>
 			{loading || post === null || authUser === null ? (
 				<Spinner />
-			) : post.visibility.includes(authUser.role) ? (
+			) : post.visibility.includes(authUser.role) || post.user === authUser._id || authUser.isAdmin ? (
 				<Fragment>
 					<div
 						className="container my-container"

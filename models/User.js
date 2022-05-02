@@ -72,6 +72,14 @@ const UserSchema = new mongoose.Schema({
 	bio: {
 		type: String,
 	},
+	followers: {
+		type: Array,
+		default: [],
+	},
+	followings: {
+		type: Array,
+		default: [],
+	},
 	experience: [
 		{
 			title: {
@@ -157,4 +165,5 @@ const UserSchema = new mongoose.Schema({
 	},
 });
 
+UserSchema.index({ "$**": "text" });
 module.exports = mongoose.model("user", UserSchema);

@@ -6,6 +6,7 @@ import Alert from "../layouts/Alert.jsx";
 import Dashboard from "../dashboard/Dashboard";
 import PrivateRoute from "../routing/PrivateRoute";
 import AdminRoute from "../routing/AdminRoute";
+import AlumniRoute from "../routing/AlumniRoute";
 import Login from "../auth/Login.jsx";
 import CreateProfile from "../profile-form/CreateProfile";
 import EditProfile from "../profile-form/EditProfile";
@@ -21,6 +22,7 @@ import PostDisplay from "../posts/PostDisplay";
 import Profiles from "../profiles/Profiles";
 import Help from "../layouts/Help";
 import Achievement from "../layouts/Achievement";
+import Messenger from "../messenger/Messenger";
 
 const Routes = () => {
 	return (
@@ -29,6 +31,7 @@ const Routes = () => {
 			style={{
 				display: "inline-block",
 				marginLeft: "12vw",
+				minHeight:"90vh"
 			}}
 		>
 			<Alert />
@@ -67,6 +70,7 @@ const Routes = () => {
 				<PrivateRoute exact path="/posts/:id" component={PostDisplay} />
 				<AdminRoute exact path="/dashboard" component={AdminDash} />
 				<Route exact path="/add-achievement" component={Achievement} />
+				<PrivateRoute exact path="/messenger" component={Messenger} />
 				{/* <PrivateRoute
 					exact
 					path="/requests/join"

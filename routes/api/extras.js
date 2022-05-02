@@ -9,7 +9,7 @@ const receiveMail = require("../../utils/receiveMail");
 
 router.post("/add-achievement", async (req, res) => {
 	const { formInput, imgUrl, proofUrl } = req.body;
-	const { name, enrollment_number, program, passing_year, rewards } =
+	const { name, enrollment_number, program, passing_year, rewards, award_date } =
 		formInput;
 
 	try {
@@ -19,11 +19,12 @@ router.post("/add-achievement", async (req, res) => {
 			program,
 			passing_year,
 			rewards,
+			award_date,
 			imgUrl,
 			proofUrl,
 		});
 		const savedAchievement = await achievement_object.save();
-		console.log(savedAchievement);
+		// console.log(savedAchievement);
 		res.json(savedAchievement);
 	} catch (err) {
 		console.error("error saving achievement to DB");
@@ -49,13 +50,13 @@ router.post("/submit-feedback", async (req, res) => {
 			text: feedback,
 		};
 
-		// receiveMail(options, function (err, data) {
-		// 	if (err) {
-		// 		res.status(500).json({ message: "Internal Error" });
-		// 	} else {
-		// 		res.status({ message: "Email sent!!!" });
-		// 	}
-		// });
+		receiveMail(options, function (err, data) {
+			if (err) {
+				res.status(500).json({ message: "Internal Error" });
+			} else {
+				res.status({ message: "Email sent!!!" });
+			}
+		});
 
 		res.json(fd);
 	} catch (err) {

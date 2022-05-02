@@ -39,40 +39,42 @@ const Profile = ({
 						)} */}
 					<div className="profile-grid my-1">
 						<ProfileTop profile={userProfile} />
-						<ProfileAbout profile={userProfile} />
-						<div className="profile-exp bg-white p-2">
-							<h2 className="text-primary">Experience</h2>
-							{userProfile.experience.length > 0 ? (
-								<Fragment>
-									{userProfile.experience.map((exp) => (
-										<ProfileExperience
-											key={exp._id}
-											experience={exp}
-										/>
-									))}
-								</Fragment>
-							) : (
-								<h4 style={{ textAlign: "center" }}>
-									No Experience to display
-								</h4>
-							)}
-						</div>
-						<div className="profile-edu bg-white p-2">
-							<h2 className="text-primary">Education</h2>
-							{userProfile.education.length > 0 ? (
-								<Fragment>
-									{userProfile.education.map((edu) => (
-										<ProfileEducation
-											key={edu._id}
-											education={edu}
-										/>
-									))}
-								</Fragment>
-							) : (
-								<h4 style={{ textAlign: "center" }}>
-									No Education to display
-								</h4>
-							)}
+						{/* <ProfileAbout profile={userProfile} /> */}
+						<div className="row">
+							<div className="profile-exp bg-white p-2 col" style={{minHeight:"50vh"}}>
+								<h2 className="text-primary">Experience</h2>
+								{userProfile.experience.length > 0 ? (
+									<Fragment>
+										{userProfile.experience.map((exp) => (
+											<ProfileExperience
+												key={exp._id}
+												experience={exp}
+											/>
+										))}
+									</Fragment>
+								) : (
+									<h4 style={{ textAlign: "center" }}>
+										No Experience to display
+									</h4>
+								)}
+							</div>
+							<div className="profile-edu bg-white p-2 col"  style={{minHeight:"50vh"}}>
+								<h2 className="text-primary">Education</h2>
+								{userProfile.education.length > 0 ? (
+									<Fragment>
+										{userProfile.education.map((edu) => (
+											<ProfileEducation
+												key={edu._id}
+												education={edu}
+											/>
+										))}
+									</Fragment>
+								) : (
+									<h4 style={{ textAlign: "center" }}>
+										No Education to display
+									</h4>
+								)}
+							</div>
 						</div>
 					</div>
 				</Fragment>
@@ -83,13 +85,13 @@ const Profile = ({
 
 Profile.propTypes = {
 	getUserById: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired,
+	users: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-	profile: state.profile,
 	auth: state.auth,
+	users: state.user,
 });
 
 export default connect(mapStateToProps, { getUserById })(Profile);

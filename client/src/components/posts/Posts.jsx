@@ -18,7 +18,7 @@ const Posts = ({
 
 	useEffect(() => {
 		closeSideNav();
-		getPosts(query)
+		getPosts(query);
 	}, []);
 
 	const onSubmit = (e) => {
@@ -75,7 +75,8 @@ const Posts = ({
 						posts.map((pst) => {
 							if (
 								authUser !== null &&
-								pst.visibility.includes(authUser.role)
+								(pst.visibility.includes(authUser.role) ||
+									pst.user === authUser._id || authUser.isAdmin)
 							) {
 								return <PostCard key={pst._id} post={pst} />;
 							}

@@ -21,9 +21,8 @@ const AchievementSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	date: {
-		type: Date,
-		default: Date.now,
+	award_date: {
+		type: String,
 	},
 	imgUrl: {
 		type: String,

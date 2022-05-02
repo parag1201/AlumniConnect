@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Footer() {
 	return (
@@ -50,8 +50,14 @@ function Footer() {
 		// 	</div>
 		// </div>
 		// style={{position: "absolute", top:"95vh", left: "10%"}}
-		<footer className="page-footer font-small teal pt-4 footer-class">
-			<div className="container-fluid text-center text-md-left">
+		<footer className="page-footer font-small teal footer-class">
+			<div
+				className="container-fluid text-center pt-5 pb-5 text-md-left"
+				style={{
+					backgroundColor: "#eee",
+					borderBottom: "1px solid #c5c5c5",
+				}}
+			>
 				<div className="row">
 					<div className="col-md-6 mt-md-0 mt-3">
 						<h6
@@ -61,7 +67,7 @@ function Footer() {
 							Important Links
 						</h6>
 						<ul>
-							<li style={{textAlign:"center"}}>
+							<li style={{ textAlign: "center" }}>
 								<Link
 									to="/add-achievement"
 									className="navbar-link"
@@ -71,14 +77,9 @@ function Footer() {
 									</span>
 								</Link>
 							</li>
-							<li style={{textAlign:"center"}}>
-								<Link
-									to="/help"
-									className="navbar-link"
-								>
-									<span className="hide-sm">
-										Help
-									</span>
+							<li style={{ textAlign: "center" }}>
+								<Link to="/help" className="navbar-link">
+									<span className="hide-sm">Help</span>
 								</Link>
 							</li>
 							{/* <li>Achievements/Awards</li> */}
@@ -101,53 +102,55 @@ function Footer() {
 							aliquid debitis ullam omnis quos ipsam, aspernatur
 							id excepturi hic.
 						</p> */}
-						<div className="help-section help-location-div">
+						<div className="help-section help-location-div pt-1 pb-1">
 							<i
 								className="fas fa-map-marker-alt location-icon"
 								aria-hidden="false"
-								style={{ fontSize: "14px" }}
+								style={{ fontSize: "15px" }}
 							></i>
 							<p
 								className="contact-info contact-info-text"
-								style={{ fontSize: "14px" }}
+								style={{ fontSize: "15px" }}
 							>
 								Office of Alumni Affairs Admin Extension-1, IIIT
 								Allahabad, Devghat, Jhalwa Prayagraj - 211015
 								Uttar Pradesh, India
 							</p>
 						</div>
-						<div className="help-section help-mail-div">
+						<div className="help-section help-mail-div pt-1 pb-1">
 							<i
 								className="fa fa-envelope mail-icon"
-								style={{ fontSize: "14px" }}
+								style={{ fontSize: "15px" }}
 							></i>
 							<div className="contact-info">
 								<p
 									className="contact-info-text"
-									style={{ fontSize: "14px" }}
+									style={{ fontSize: "15px" }}
 								>
 									alumni.coordinator@iiita.ac.in
 								</p>
-								<p
-									className="contact-info-text"
-									style={{ fontSize: "14px" }}
-								>
-									dean.aa@iiita.ac.in
-								</p>
 							</div>
 						</div>
-						<div className="help-section help-phone-div">
+						<div className="help-section help-phone-div pt-1 pb-1 mt-2">
 							<i
-								className="fa fa-phone phone-icon"
+								className="fa fa-phone phone-icon mt-3"
 								aria-hidden="true"
-								style={{ fontSize: "14px" }}
+								style={{ fontSize: "15px" }}
 							></i>
-							<p
-								className="contact-info contact-info-text"
-								style={{ fontSize: "14px" }}
-							>
-								(91) 0532 292 2042/2290
-							</p>
+							<div className="contact-info">
+								<p
+									className="contact-info contact-info-text"
+									style={{ fontSize: "15px" }}
+								>
+									(91) 0532 292 2599/2308
+								</p>
+								<p
+									className="contact-info contact-info-text"
+									style={{ fontSize: "15px" }}
+								>
+									(91) 7317319062
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>

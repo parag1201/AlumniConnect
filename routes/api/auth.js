@@ -73,7 +73,7 @@ router.post(
 			// sign the payload with private key
 			jwt.sign(
 				payload,
-				config.get("privateKey"),
+				process.env.ACCESS_TOKEN_SECRET,
 				{ expiresIn: 360000 },
 				(err, token) => {
 					if (err) throw err;
@@ -113,11 +113,25 @@ router.post(
 			}
 			console.log("request executing");
 
-			const secret = config.get("privateKey") + user.password;
+			const secret = process.env.ACCESS_TOKEN_SECRET + user.password;
 			const payload = { user: { id: user.id } };
 
-			const token = jwt.sign(payload, secret, { expiresIn: "10m" });
-			return res.status(200).json(`resetPassword/${user.id}/${token}`);
+			const token = jwt.sign(payload, secret, { expiresIn: "5m" });
+
+			// return res.status(200).json(`resetPassword/${user.id}/${token}`);
+			const options = {
+				subject: "Reset Password Link",
+				text: `Please click the following link to reset password for your account. Note: This link is valid only for 5 mins. ${process.env.CLIENT_URL}/resetPassword/${user.id}/${token}`,
+
+				to: email,
+				from: {
+					name: "Alumni Connect",
+					address: process.env.EMAIL,
+				},
+			};
+
+			sendEmail(options);
+			return res.status(200).send("Email sent");
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send("Server error.");
@@ -161,18 +175,44 @@ router.post(
 					.status(400)
 					.json({ errors: [{ msg: "Invalid Request" }] });
 			}
-			const secret = config.get("privateKey") + user.password;
+			const secret = process.env.ACCESS_TOKEN_SECRET + user.password;
 			const payload = jwt.verify(reset_token, secret);
 			console.log("payload", payload);
 			const salt = await bcrypt.genSalt(10);
 			user.password = await bcrypt.hash(password, salt);
-
+			await user.save();
 			console.log("Password reset success");
-			return await user.save();
+			return res.status(200).send("Password Reset success");
 		} catch (err) {
 			res.status(500).send("Server error.");
 		}
 	}
 );
 
+router.post("/verify-reset-link", async (req, res) => {
+	const { user_id, reset_token } = req.body;
+	try {
+		const user = await User.findOne({ _id: user_id });
+		if (!user) {
+			console.log("hello");
+			return res
+				.status(400)
+				.json({ errors: [{ msg: "Invalid Request" }] });
+		}
+	} catch (err) {
+		return res.status(500).json({ errors: [{ msg: "Invalid Request" }] });
+	}
+	try {
+		const secret = process.env.ACCESS_TOKEN_SECRET + user.password;
+		const payload = jwt.verify(reset_token, secret);
+		console.log("payload" + payload);
+		if (!payload) {
+			return res
+				.status(400)
+				.json({ errors: [{ msg: "Invalid Request" }] });
+		}
+	} catch (err) {
+		res.status(500).json({ errors: [{ msg: "Invalid Request" }] });
+	}
+});
 module.exports = router;

@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect, withRouter } from "react-router-dom";
 import { closeSideNav } from "../../actions/alert";
-import { resetPassword } from "../../actions/auth";
+import { resetPassword, verifyResetLink } from "../../actions/auth";
 import PropTypes from "prop-types";
 
 const ResetPassword = ({
 	closeSideNav,
 	resetPassword,
+	verifyResetLink,
 	match,
 	history,
 }) => {
 	useEffect(() => {
 		closeSideNav();
+		verifyResetLink(match.params.user_id, match.params.reset_token);
 	}, []);
 
 	const [formInput, setFormInput] = useState({
@@ -28,14 +30,9 @@ const ResetPassword = ({
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		await resetPassword(formInput, match.params.user_id, match.params.reset_token);
-		history.push('/login');
-			// .then(() => {
-			// 	console.log("inside then ");
-			// 	history.push('/login');
-			// })
-			// .catch((err) => {
-			// 	console.log(err);
-			// });
+		setTimeout(() => {
+			history.push('/login');
+		}, 1500);
 	};
 
 	return (
@@ -87,8 +84,9 @@ ResetPassword.propTypes = {
 	match: PropTypes.object.isRequired,
 	history: PropTypes.object.isRequired,
 	closeSideNav: PropTypes.func.isRequired,
+	verifyResetLink: PropTypes.func.isRequired,
 };
 
-export default connect(null, { closeSideNav, resetPassword })(
+export default connect(null, { closeSideNav, resetPassword, verifyResetLink })(
 	withRouter(ResetPassword)
 );

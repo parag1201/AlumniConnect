@@ -209,21 +209,24 @@ export const createPostRequest = (formData) => async (dispatch) => {
 		return 1;
 	} catch (err) {
 		console.log(err.response);
-		const errors = err.response.data.errors;
-		if (errors) {
-			errors.forEach((e) => {
-				dispatch(setAlert(e.msg, "danger"));
+		let errors = null
+		if(err.response){
+			errors = err.response.data.errors;
+			if (errors) {
+				errors.forEach((e) => {
+					dispatch(setAlert(e.msg, "danger"));
+				});
+			}
+	
+			dispatch({
+				type: POST_ERROR,
+				payload: {
+					msg: err.response.statusText,
+					status: err.response.status,
+				},
 			});
+			return 0;
 		}
-
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status,
-			},
-		});
-		return 0;
 	}
 };
 

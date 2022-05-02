@@ -75,3 +75,9 @@ export const LOG_OUT = "LOG_OUT";
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const ACCOUNT_DELETED = "ACCOUNT_DELETED";
+
+
+// chat related
+export const GET_CONVERSATIONS = "GET_CONVERSATIONS";
+export const GET_MESSAGES = "GET_MESSAGES";
+export const MESSAGE_SENT = "MESSAGE_SENT";

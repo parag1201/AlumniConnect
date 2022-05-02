@@ -13,11 +13,12 @@ const Achievement = ({ setAlert, submitAchievement }) => {
 		program: "btech-it",
 		passing_year: "",
 		rewards: "",
+		award_date: "",
 	});
 	const [image, setImage] = useState("");
 	const [proof, setProof] = useState("");
 
-	const { name, program, passing_year, enrollment_number, rewards } =
+	const { name, program, passing_year, enrollment_number, rewards, award_date } =
 		formInput;
 
 	const history = useHistory();
@@ -121,11 +122,24 @@ const Achievement = ({ setAlert, submitAchievement }) => {
 							className="form-group"
 							name="rewards"
 							id="rewards"
-							rows="10"
+							rows="12"
 							required
 							value={rewards}
 							onChange={(event) => onChange(event)}
-							placeholder="Please enter details in the given format:"
+							placeholder={
+								"Please Enter details in the following format:\n\nTitle of Award:\n\nType of Award:\n\nName of Awarding Organisation:\n\nReceived Jointly / Solo:\n\nCash Prize Received:"
+							}
+						/>
+					</div>
+					<div className="form-group">
+						<label>Date of Award</label>
+						<input
+							type="date"
+							name="award_date"
+							id="award_date"
+							value={award_date}
+							required
+							onChange={(event) => onChange(event)}
 						/>
 					</div>
 					<div className="form-group">
@@ -142,7 +156,7 @@ const Achievement = ({ setAlert, submitAchievement }) => {
 					<div className="form-group">
 						<label>
 							Certificate / Proof of Achievement (Supported
-							formats: .png, .jpg, .jpeg)
+							formats: .pdf, .png, .jpg, .jpeg)
 						</label>
 						<input
 							type="file"

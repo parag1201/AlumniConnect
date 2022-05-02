@@ -29,12 +29,7 @@ const PostRequestSchema = new Schema({
 		{
 			type: String,
 		},
-	],
-	images: [
-		{
-			type: String,
-		},
-	],
+	]
 });
 
 module.exports = mongoose.model("post-requests", PostRequestSchema);

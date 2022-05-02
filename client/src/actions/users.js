@@ -241,10 +241,13 @@ export const getUserById = (userId) => async (dispatch) => {
 };
 
 // get all users
-export const getUsers = () => async (dispatch) => {
+export const getUsers = (searchTerm) => async (dispatch) => {
 	dispatch({ type: CLEAR_USER });
 	try {
-		const res = await axios.get("/api/users/all");
+		if(searchTerm === ""){
+			searchTerm = "all";
+		}
+		const res = await axios.get(`/api/users/search/${searchTerm}`);
 		console.log("inside actions file");
 		console.log(res.data);
 		dispatch({
@@ -352,3 +355,35 @@ export const unblockUser = (user_id) => async (dispatch) => {
 		});
 	}
 };
+
+export const followUser = (user_id) => async (dispatch) => {
+	try {
+		await axios.put(`/api/users/${user_id}/follow`);
+	} catch (err) {
+		console.log(err);
+		// dispatch({
+		// 	type: UNBLOCK_USER_ERROR,
+		// 	payload: {
+		// 		msg: err.response.statusText,
+		// 		status: err.response.status,
+		// 	},
+		// });
+	}
+}
+
+export const unFollowUser = (user_id) => async (dispatch) => {
+	try {
+		await axios.put(`/api/users/${user_id}/unfollow`);
+	} catch (err) {
+		console.log(err);
+	}
+}
+
+export const getUsersByType = (user_type) => async (dispatch) => {
+	try {
+		const res = await axios.get(`/api/users/type/${user_type}`);
+		return res.data;
+	} catch (err) {
+		console.log(err);
+	}
+}

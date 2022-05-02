@@ -11,6 +11,8 @@ import AchievementCard from "../extras/AchievementCard";
 import FeedbackCard from "../extras/FeedbackCard";
 import Settings from "../layouts/Settings";
 import Footer from "../layouts/Footer";
+import DisplayAchievments from "./DisplayAchievements";
+import DisplayFeedbacks from "./DisplayFeedbacks";
 
 import {
 	getAchievements,
@@ -65,10 +67,17 @@ const AdminDash = ({
 		{ label: "Program", key: "program" },
 		{ label: "Passing year", key: "passing_year" },
 		{ label: "Awards", key: "rewards" },
+		{ label: "Award Date", key: "award_date" },
 		{ label: "Image Link", key: "imgUrl" },
 		{ label: "Certificate Link", key: "proofUrl" },
 	];
 
+	const deleteAll = (callback) => {
+		const conf = window.confirm("This action cannot be undone. Are you sure ?")
+		if (conf){
+			callback();
+		}
+	}
 	const csvReport = {
 		data: extras.achievements,
 		headers: fields,
@@ -443,7 +452,9 @@ const AdminDash = ({
 					</React.Fragment>
 				)}
 
-				{showAchievements ? (
+				{showAchievements && <DisplayAchievments achievements={extras.achievements}/>}
+
+				{/* {showAchievements ? (
 					extras.loading ? (
 						<Spinner />
 					) : (
@@ -467,7 +478,7 @@ const AdminDash = ({
 										<button
 											className="btn btn-danger ml-2"
 											onClick={() =>
-												deleteAllAchievements()
+												deleteAll(deleteAllAchievements)
 											}
 										>
 											Delete All
@@ -488,7 +499,7 @@ const AdminDash = ({
 					)
 				) : (
 					<React.Fragment />
-				)}
+				)} */}
 
 				{showFeedbacks ? (
 					extras.loading ? (
@@ -505,7 +516,7 @@ const AdminDash = ({
 									<div style={{ marginTop: "1em" }}>
 										<button
 											className="btn btn-danger ml-2"
-											onClick={() => deleteAllFeedbacks()}
+											onClick={() => deleteAll(deleteAllFeedbacks)}
 										>
 											Delete All
 											<Icon name="trash" />
@@ -527,7 +538,7 @@ const AdminDash = ({
 					<React.Fragment />
 				)}
 
-				{showSettings && <Settings/>}
+				{showSettings && <Settings />}
 			</div>
 			{/* <Footer/> */}
 		</React.Fragment>

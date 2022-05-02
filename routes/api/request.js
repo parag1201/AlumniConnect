@@ -7,6 +7,7 @@ const PostRequest = require("../../models/PostRequest");
 const { check, validationResult } = require("express-validator");
 const gravatar = require("gravatar");
 var mongoose = require("mongoose");
+const Post = require("../../models/Post");
 const sendEmail = require("../../utils/sendEmail");
 
 router.get("/join", authAdmin, async (req, res) => {
@@ -112,7 +113,7 @@ router.get("/join/:id/approve", authAdmin, async (req, res) => {
 					address: process.env.EMAIL,
 				},
 			};
-			// sendEmail(options);
+			sendEmail(options);
 		} catch (e) {
 			console.log(e);
 		}
@@ -150,10 +151,10 @@ router.get("/post/:id/approve", authAdmin, async (req, res) => {
 		await post.save();
 		await PostRequest.findOneAndDelete(req.params.id);
 
-		const postuser = User.findById(user).select("-password");
+		const postuser = await User.findById(user).select("-password");
 
 		const options = {
-			subject: "Post Accepted",
+			subject: "Post Acceepted",
 			text: "Congratulations! Your post has been approved.",
 			to: postuser.email,
 			from: {
@@ -162,7 +163,7 @@ router.get("/post/:id/approve", authAdmin, async (req, res) => {
 			},
 		};
 
-		// sendEmail(options);
+		sendEmail(options);
 		res.json({ id: req.params.id });
 	} catch (err) {
 		console.error(err.message);

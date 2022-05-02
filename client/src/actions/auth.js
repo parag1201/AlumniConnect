@@ -1,6 +1,6 @@
 import axios from "axios";
-import setAuthToken from "../utils/setAuthToken";
 import { setAlert } from "./alert";
+import setAuthToken from "../utils/setAuthToken";
 import {
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
@@ -160,7 +160,8 @@ export const forgotPassword = (formData) => async (dispatch) => {
 			formData,
 			config
 		);
-		return res.data;
+
+		dispatch(setAlert("Check your email for Reset Link", "safe"));
 	} catch (e) {
 		const errors = e.response.data.errors;
 		if (errors) {
@@ -171,27 +172,54 @@ export const forgotPassword = (formData) => async (dispatch) => {
 	}
 };
 
-export const resetPassword =
-	(formInput, user_id, reset_token) => async (dispatch) => {
-		const config = {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-
-		const { password, password_confirm } = formInput;
-		const body = { password, password_confirm, user_id, reset_token };
-		try {
-			await axios.post("/api/auth/reset-password", body, config);
-		} catch (e) {
-			const errors = e.response.data.errors;
-			if (errors) {
-				errors.forEach((err) => {
-					dispatch(setAlert(err.msg, "danger"));
-				});
-			}
-		}
+export const resetPassword = (formInput, user_id, reset_token) => async (dispatch) => {
+	const config = {
+		headers: {
+			"Content-Type": "application/json",
+		},
 	};
+
+	const { password, password_confirm } = formInput;
+	const body = { password, password_confirm, user_id, reset_token };
+	try {
+		const res = await axios.post(
+			"/api/auth/reset-password",
+			body,
+			config
+		);
+		dispatch(setAlert("Password changed", "safe"));
+	} catch (e) {
+		const errors = e.response.data.errors;
+		if (errors) {
+			errors.forEach((err) => {
+				dispatch(setAlert(err.msg, "danger"));
+			});
+		}
+	}
+};
+
+export const verifyResetLink = (user_id, reset_token) => async (dispatch) => {
+	const config = {
+		headers: {
+			"Content-Type": "application/json",
+		},
+	};
+
+	const body = { user_id, reset_token };
+
+	try {
+		const res = await axios.post("/api/auth/verify-reset-link", body, config);
+		return 1;
+	} catch (e) {
+		const errors = e.response.data.errors;
+		if (errors) {
+			errors.forEach((err) => {
+				dispatch(setAlert(err.msg, "danger"));
+			});
+		}
+		return 0;
+	}
+}
 
 // log out
 export const logOut = () => (dispatch) => {

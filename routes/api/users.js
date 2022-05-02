@@ -149,12 +149,26 @@ router.get("/me", auth, async (req, res) => {
 // @desc     get all Users
 // @access   Private
 
-router.get("/all", auth, async (req, res) => {
+router.get("/search/:query", auth, async (req, res) => {
 	try {
-		const users = await User.find();
-		console.log("inside get all user api");
-		if (users) {
-			console.log("NON ZERO USERS" + users.length);
+		const searchTerm = req.params.query;
+		console.log(searchTerm);
+		var users = [];
+		if (searchTerm === "all") {
+			users = await User.find();
+			console.log("inside get all user api");
+			if (users) {
+				console.log("NON ZERO USERS" + users.length);
+			}
+		} else {
+			console.log("inside search users");
+			users = await User.find(
+				{ $text: { $search: searchTerm } },
+				{ score: { $meta: "textScore" } }
+			).sort({ score: { $meta: "textScore" } });
+			if (users) {
+				console.log("NON zero search USERS" + users.length);
+			}
 		}
 		res.json(users);
 	} catch (err) {
@@ -412,6 +426,90 @@ router.get("/:id/unblock", authHeadAdmin, async (req, res) => {
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).json({ msg: "Server Error in Unblock user" });
+	}
+});
+
+//get friends
+router.get("/friends/:userId", auth, async (req, res) => {
+	try {
+		const user = await User.findById(req.params.userId);
+		const friends = await Promise.all(
+			user.followings.map((friendId) => {
+				return User.findById(friendId);
+			})
+		);
+		let friendList = [];
+		friends.map((friend) => {
+			const { _id, username, profilePicture } = friend;
+			friendList.push({ _id, username, profilePicture });
+		});
+		res.status(200).json(friendList);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
+//follow a user
+
+router.put("/:id/follow", auth, async (req, res) => {
+	if (req.user.id !== req.params.id) {
+		try {
+			const user = await User.findById(req.params.id);
+			// console.log(user._id)
+			const currentUser = await User.findById(req.user.id);
+			if (!user.followers.includes(req.user.id)) {
+				await user.updateOne({ $push: { followers: req.user.id } });
+				await currentUser.updateOne({
+					$push: { followings: req.params.id },
+				});
+				res.status(200).json("user has been followed");
+			} else {
+				res.status(403).json("you allready follow this user");
+			}
+		} catch (err) {
+			console.log(err);
+			res.status(500).json(err);
+		}
+	} else {
+		res.status(403).json("you cant follow yourself");
+	}
+});
+
+//unfollow a user
+
+router.put("/:id/unfollow", auth, async (req, res) => {
+	if (req.user.id !== req.params.id) {
+		try {
+			const user = await User.findById(req.params.id);
+			const currentUser = await User.findById(req.user.id);
+			if (user.followers.includes(req.user.id)) {
+				await user.updateOne({ $pull: { followers: req.user.id } });
+				await currentUser.updateOne({
+					$pull: { followings: req.params.id },
+				});
+				res.status(200).json("user has been unfollowed");
+			} else {
+				res.status(403).json("you dont follow this user");
+			}
+		} catch (err) {
+			res.status(500).json(err);
+		}
+	} else {
+		res.status(403).json("you cant unfollow yourself");
+	}
+});
+
+router.get("/type/:user_type", auth, async (req, res) => {
+	try {
+		let users = null;
+		if (req.params.user_type === "admin") {
+			users = await User.find({ isAdmin: true });
+		} else {
+			users = await User.find({ role: req.params.user_type });
+		}
+		return res.status(200).json(users);
+	} catch (err) {
+		res.status(500).json("Server Error");
 	}
 });
 

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { deleteAchievement } from "../../actions/extras";
 import { connect } from "react-redux";
+import Moment from "react-moment";
 
 const AchievementCard = ({ data, deleteAchievement }) => {
 	return (
@@ -11,16 +12,14 @@ const AchievementCard = ({ data, deleteAchievement }) => {
 					<strong>Name : </strong>
 					{data.name}
 				</li>
-				{"enrollment_number" in data ? (
-					<li>
-						<strong>Enrollment Number : </strong>
-						<span style={{ textTransform: "uppercase" }}>
-							{data.enrollment_number}
-						</span>
-					</li>
-				) : (
-					<React.Fragment />
-				)}
+				<li>
+					<strong>Enrollment Number : </strong>
+					<span style={{ textTransform: "uppercase" }}>
+						{data.enrollment_number !== ""
+							? data.enrollment_number
+							: "Not Filled"}
+					</span>
+				</li>
 				<li>
 					<strong>Program: </strong>
 					<span style={{ textTransform: "uppercase" }}>
@@ -32,17 +31,22 @@ const AchievementCard = ({ data, deleteAchievement }) => {
 					{data.passing_year}
 				</li>
 				<li>
+					<strong>Award Date : </strong>
+					<Moment format="MM-YYYY">{data.award_date}</Moment>
+					{data.award_date}
+				</li>
+				<li>
 					<strong>Awards : </strong>
 					{data.rewards}
 				</li>
 				<div className="row">
 					<li className="mr-2 ml-3">
-						<a target="_blank" href={data.imgUrl}>
+						<a target="_blank" href={`http://localhost:5000/awards/${data.imgUrl}`}>
 							View Image
 						</a>
 					</li>
 					<li className="ml-1">
-						<a target="_blank" href={data.proofUrl}>
+						<a target="_blank" href={`http://localhost:5000/awards/${data.proofUrl}`}>
 							View Certificate
 						</a>
 					</li>

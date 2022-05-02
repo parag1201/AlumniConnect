@@ -23,7 +23,7 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
-				<Link to="/profiles" className="navbar-link">
+				<Link to="/profiles?query=" className="navbar-link">
 					<span className="hide-sm">Members</span>
 				</Link>
 			</li>
@@ -73,7 +73,7 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
-				<Link to="/profiles" className="navbar-link">
+				<Link to="/profiles?query=" className="navbar-link">
 					<span className="hide-sm">Members</span>
 				</Link>
 			</li>

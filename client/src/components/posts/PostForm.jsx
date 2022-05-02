@@ -7,7 +7,6 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import parse from "html-react-parser";
 import { setAlert } from "../../actions/alert";
-import axios from "axios";
 
 const PostForm = ({
 	createPost,
@@ -23,16 +22,6 @@ const PostForm = ({
 	const [visibleStudent, setVisibleStudent] = useState(false);
 	const [visibleFaculty, setVisibleProf] = useState(false);
 	const [visibleAlumni, setVisibleAlumni] = useState(false);
-	const [image, setImage] = useState({ preview: "", data: "" });
-	const [status, setStatus] = useState("");
-
-	const handleFileChange = (e) => {
-		const img = {
-			preview: URL.createObjectURL(e.target.files[0]),
-			data: e.target.files[0],
-		};
-		setImage(img);
-	};
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -43,15 +32,7 @@ const PostForm = ({
 		) {
 			setAlert("Please check atleast one checkbox", "danger");
 		} else {
-			let formData = new FormData();
-			formData.append("file", image.data);
-			const res = await axios.post("/image", formData);
-			const newFileName = res.data;
-			var imagesArray = [];
-			imagesArray.push(newFileName);
-			// if (response) setStatus(response.statusText);
 			let success = 0;
-
 			if (requireApproval) {
 				success = await createPostRequest({
 					text,
@@ -59,7 +40,6 @@ const PostForm = ({
 					visibleStudent,
 					visibleFaculty,
 					visibleAlumni,
-					imagesArray,
 				});
 			} else {
 				success = await createPost({
@@ -68,16 +48,14 @@ const PostForm = ({
 					visibleStudent,
 					visibleFaculty,
 					visibleAlumni,
-					imagesArray,
 				});
 			}
 
-			// if (success) {
-			// 	setTimeout(() => {
-			// 		history.push("/feed");
-			// 	}, 1500);
-			// } else {
-			// }
+			if (success) {
+				setTimeout(() => {
+					history.push("/feed");
+				}, 1500);
+			}
 		}
 	};
 
@@ -110,7 +88,7 @@ const PostForm = ({
 							required
 						/>
 					</div>
-					<div className="form-group">
+					{/* <div className="form-group">
 						<label>Upload images (.png, .jpg, .jpeg)</label>
 						<input
 							type="file"
@@ -119,7 +97,7 @@ const PostForm = ({
 							multiple
 							onChange={handleFileChange}
 						/>
-					</div>
+					</div> */}
 
 					<div className="form-group select-post-visibility">
 						<p
@@ -193,9 +171,9 @@ const PostForm = ({
 						<strong>Preview:</strong>
 					</p>
 					<div className="parsed-text">{parse(text)}</div>
-					{image.preview && (
+					{/* {image.preview && (
 						<img src={image.preview} width="100" height="100" />
-					)}
+					)} */}
 				</div>
 			)}
 		</React.Fragment>
