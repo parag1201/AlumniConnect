@@ -13,14 +13,15 @@ import {
 	CREATE_POST_REQUEST,
 	ADD_COMMENT,
 	SET_POST_SETTING,
+	GET_POST_SETTING,
 } from "./types";
 import { setAlert } from "./alert";
 
 // get posts
 export const getPosts = (query) => async (dispatch) => {
 	try {
-		const params = {query};
-		const res = await axios.get("/api/posts/search", {params});
+		const params = { query };
+		const res = await axios.get("/api/posts/search", { params });
 		// console.log(res.data);
 		dispatch({
 			type: GET_POSTS,
@@ -209,15 +210,15 @@ export const createPostRequest = (formData) => async (dispatch) => {
 		return 1;
 	} catch (err) {
 		console.log(err.response);
-		let errors = null
-		if(err.response){
+		let errors = null;
+		if (err.response) {
 			errors = err.response.data.errors;
 			if (errors) {
 				errors.forEach((e) => {
 					dispatch(setAlert(e.msg, "danger"));
 				});
 			}
-	
+
 			dispatch({
 				type: POST_ERROR,
 				payload: {
@@ -251,12 +252,49 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
 	}
 };
 
-export const setRequirePostApproval = (value) => (dispatch) => {
+export const setRequirePostApproval = (value) => async (dispatch) => {
 	try {
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+
+		const body = {
+			requireApproval: value,
+		};
+
+		console.log("inside set function actions");
+		console.log(value);
+		const res = await axios.put("/api/posts/settings/set", body, config);
+
+		console.log("request completed");
+		// this action is not getting dispatched
 		dispatch({
 			type: SET_POST_SETTING,
 			payload: value,
 		});
+	} catch (err) {
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status,
+			},
+		});
+	}
+};
+
+export const getRequirePostApproval = () => async (dispatch) => {
+	try {
+		const res = await axios.get("/api/posts/settings/get");
+
+		dispatch({
+			type: GET_POST_SETTING,
+			payload: res.data,
+		});
+
+		return res.data;
 	} catch (err) {
 		dispatch({
 			type: POST_ERROR,

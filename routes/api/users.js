@@ -435,15 +435,10 @@ router.get("/friends/:userId", auth, async (req, res) => {
 		const user = await User.findById(req.params.userId);
 		const friends = await Promise.all(
 			user.followings.map((friendId) => {
-				return User.findById(friendId);
+				return User.findById(friendId).select("-password");
 			})
 		);
-		let friendList = [];
-		friends.map((friend) => {
-			const { _id, username, profilePicture } = friend;
-			friendList.push({ _id, username, profilePicture });
-		});
-		res.status(200).json(friendList);
+		res.status(200).json(friends);
 	} catch (err) {
 		res.status(500).json(err);
 	}
@@ -503,9 +498,11 @@ router.get("/type/:user_type", auth, async (req, res) => {
 	try {
 		let users = null;
 		if (req.params.user_type === "admin") {
-			users = await User.find({ isAdmin: true });
+			users = await User.find({ isAdmin: true }).select("-password");
 		} else {
-			users = await User.find({ role: req.params.user_type });
+			users = await User.find({ role: req.params.user_type }).select(
+				"-password"
+			);
 		}
 		return res.status(200).json(users);
 	} catch (err) {

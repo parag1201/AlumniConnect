@@ -23,6 +23,11 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
+				<Link to="/messenger" className="navbar-link">
+					<span className="hide-sm">Messenger</span>
+				</Link>
+			</li>
+			<li>
 				<Link to="/profiles?query=" className="navbar-link">
 					<span className="hide-sm">Members</span>
 				</Link>
@@ -30,7 +35,7 @@ const Navbar = ({
 			<li>
 				<Link to="/userprofile" className="navbar-link">
 					<i className="fas fa-user"></i>{" "}
-					<span className="hide-sm">Profile</span>
+					{/* <span className="hide-sm">Profile</span> */}
 					{authUser !== null && authUser.isAdmin && authUser.adminType==="head" && <span className="user-role-tag">Head Admin</span>}
 					{authUser !== null && authUser.isAdmin && authUser.adminType==="sub" && <span className="user-role-tag">{authUser.role} Admin</span>}
 				</Link>
@@ -80,7 +85,7 @@ const Navbar = ({
 			<li>
 				<Link to="/userprofile" className="navbar-link">
 					<i className="fas fa-user"></i>{" "}
-					<span className="hide-sm">Profile</span>
+					{/* <span className="hide-sm">Profile</span> */}
 					{authUser !== null && <span className="user-role-tag">{authUser.role}</span>}
 				</Link>
 			</li>

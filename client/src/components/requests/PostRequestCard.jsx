@@ -24,9 +24,9 @@ const PostRequestCard = ({
 							style={{ height: "40px", width: "40px" }}
 						/>
 						<Link to={`/profile/${user}`} style={{"color":"black"}}>
-							<p style={{ fontSize: "1.2rem", marginTop: "3px" }}>
+							<span style={{ fontSize: "1.2rem", marginTop: "3px" }}>
 								{name}
-							</p>
+							</span>
 						</Link>
 					</div>
 					<div className="float-right" style={{ marginTop: "10px" }}>

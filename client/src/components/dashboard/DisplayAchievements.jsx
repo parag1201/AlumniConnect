@@ -50,56 +50,59 @@ const DisplayAchievements = ({ achievements }) => {
 
 	return (
 		<React.Fragment>
+			<ul style={{ marginTop: "0", marginLeft: "30.5em" }} className="award-actions">
+				<li>
+					<CSVLink
+						{...csvReport}
+						className="btn btn btn-secondary btn-light mr-2"
+					>
+						Export All
+						<Icon name="arrow-right" />
+					</CSVLink>
+				</li>
+				<li>
+					<button
+						className="btn btn-danger ml-2"
+						onClick={() => deleteAll(deleteAllAchievements)}
+					>
+						Delete All
+						<Icon name="trash" />
+					</button>
+				</li>
+				<li>
+					<select
+						className="ml-2"
+						value={month}
+						onChange={(e) => onChange(e)}
+						style={{
+							outline: "none",
+							padding: "0.5em",
+							border: "1.5px solid #ccc",
+							borderRadius: "4px",
+						}}
+					>
+						<option value="01">Jan</option>
+						<option value="02">Feb</option>
+						<option value="03">March</option>
+						<option value="04">April</option>
+						<option value="05">May</option>
+						<option value="06">June</option>
+						<option value="07">July</option>
+						<option value="08">Aug</option>
+						<option value="09">Sept</option>
+						<option value="10">Oct</option>
+						<option value="11">Nov</option>
+						<option value="12">Dec</option>
+					</select>
+				</li>
+			</ul>
 			{data.length === 0 && (
-				<div className="no-data-page">Nothing to show here</div>
+				<div className="no-data-page mt-5">
+					No achievements to display
+				</div>
 			)}
 
 			<div className="request-list-admin-dash float-child">
-				{data.length > 0 && (
-					<div style={{ marginTop: "1em" }}>
-						<CSVLink
-							{...csvReport}
-							className="btn btn btn-secondary btn-light mr-2"
-						>
-							Export All
-							<Icon name="arrow-right" />
-						</CSVLink>
-						<button
-							className="btn btn-danger ml-2"
-							onClick={() => deleteAll(deleteAllAchievements)}
-						>
-							Delete All
-							<Icon name="trash" />
-						</button>
-						<div className="col">
-						<label>Filter by month</label>
-						<select
-							className="ml-2"
-							value={month}
-							onChange={(e) => onChange(e)}
-							style={{
-								outline: "none",
-								padding: "0.5em",
-								border: "1.5px solid #ccc",
-								borderRadius: "4px",
-							}}
-						>
-							<option value="01">Jan</option>
-							<option value="02">Feb</option>
-							<option value="03">March</option>
-							<option value="04">April</option>
-							<option value="05">May</option>
-							<option value="06">June</option>
-							<option value="07">July</option>
-							<option value="08">Aug</option>
-							<option value="09">Sept</option>
-							<option value="10">Oct</option>
-							<option value="11">Nov</option>
-							<option value="12">Dec</option>
-						</select>
-						</div>
-					</div>
-				)}
 				{data.map((item) => {
 					return <AchievementCard key={item._id} data={item} />;
 				})}

@@ -9,6 +9,7 @@ import {
 	ADD_COMMENT,
 	CLEAR_POSTS,
 	SET_POST_SETTING,
+	GET_POST_SETTING,
 } from "../actions/types";
 
 const initialState = {
@@ -17,7 +18,7 @@ const initialState = {
 	loading: true,
 	error: {},
 	settings: {
-		requireApproval: true,
+		requireApproval: null,
 	},
 };
 
@@ -99,6 +100,13 @@ export default function postReducer(state = initialState, action) {
 				loading: false,
 			};
 		case SET_POST_SETTING:
+			console.log("inside reducers  set setting");
+			return {
+				...state,
+				settings: { ...state.settings, requireApproval: payload },
+				loading: false,
+			};
+		case GET_POST_SETTING:
 			return {
 				...state,
 				settings: { ...state.settings, requireApproval: payload },

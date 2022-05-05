@@ -2,10 +2,11 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layouts/Spinner";
-import { useLocation } from "react-router-dom";
 import UserCard from "./UserCard";
 import { getUsers, getUsersByType } from "../../actions/users";
 import { closeSideNav } from "../../actions/alert";
+import { Modal, Button, Typography, Box } from "@mui/material";
+import UsersByType from "./UsersByType";
 
 const Profiles = ({
 	getUsers,
@@ -14,17 +15,24 @@ const Profiles = ({
 	user: { users, loading },
 }) => {
 	const [query, setQuery] = useState("");
-	const [studentCount, setStudentCount] = useState(0);
-	const [facultyCount, setFacultyCount] = useState(0);
-	const [alumniCount, setAlumniCount] = useState(0);
-	const [adminCount, setAdminCount] = useState(0);
+	const [students, setStudents] = useState([]);
+	const [faculty, setFaculty] = useState([]);
+	const [alumni, setAlumni] = useState([]);
+	const [admins, setAdmins] = useState([]);
 
-	useEffect(() => {
+	useEffect(async () => {
 		closeSideNav();
-		setStudentCount(getUsersByType("student"));
-		setAlumniCount(getUsersByType("alumni"));
-		setFacultyCount(getUsersByType("faculty"));
-		setAdminCount(getUsersByType("admin"));
+		const students = await getUsersByType("student");
+		setStudents(students);
+
+		const alumnis = await getUsersByType("alumni");
+		setAlumni(alumnis);
+
+		const faculty = await getUsersByType("faculty");
+		setFaculty(faculty);
+
+		const admins = await getUsersByType("admin");
+		setAdmins(admins);
 	}, []);
 
 	useEffect(() => {
@@ -32,7 +40,6 @@ const Profiles = ({
 	}, [query]);
 
 	const onSubmit = () => {
-		console.log(query);
 		getUsers(query);
 	};
 
@@ -80,30 +87,10 @@ const Profiles = ({
 						style={{ textAlign: "center" }}
 					>
 						<ul className="profile-stats">
-							<li className="profile-stat-count user-type-count">
-								<span className="profile-stat-count">
-									Alumni{" "}
-								</span>
-								<span>164</span>
-							</li>
-							<li className="profile-stat-count user-type-count">
-								<span className="profile-stat-count">
-									Faculty
-								</span>{" "}
-								<span>164</span>
-							</li>
-							<li className="profile-stat-count user-type-count">
-								<span className="profile-stat-count">
-									Students
-								</span>{" "}
-								<span>164</span>
-							</li>
-							<li className="profile-stat-count user-type-count">
-								<span className="profile-stat-count">
-									Admin
-								</span>{" "}
-								<span>164</span>
-							</li>
+							<UsersByType users={alumni} label={"Alumni"} />
+							<UsersByType users={students} label={"Students"} />
+							<UsersByType users={faculty} label={"Faculty"} />
+							<UsersByType users={admins} label={"Admin"} />
 						</ul>
 					</div>
 					<h5

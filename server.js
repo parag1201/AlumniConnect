@@ -131,6 +131,8 @@ const User = require("./models/User");
 const schedule = require("node-schedule");
 const receiveMail = require("./utils/receiveMail");
 
+
+
 // schedule.scheduleJob("*/2 * * * * *", async () => {
 // 	console.log("user upgrade job running");
 // 	try {
@@ -151,3 +153,9 @@ const receiveMail = require("./utils/receiveMail");
 // 		console.log(err);
 // 	}
 // });
+
+// app.use(express.static('client/build'));
+
+// app.get('*', (req, res) => {
+// 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+// })

@@ -29,9 +29,9 @@ const Routes = () => {
 		<section
 			className="container my-container"
 			style={{
-				display: "inline-block",
-				marginLeft: "12vw",
-				minHeight:"90vh"
+				// display: "inline-block",
+				// marginLeft: "12vw",
+				minHeight:"100vh"
 			}}
 		>
 			<Alert />

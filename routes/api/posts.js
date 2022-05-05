@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
+const authHeadAdmin = require("../../middleware/authHeadAdmin");
 const User = require("../../models/User");
 const Post = require("../../models/Post");
 const Filter = require("bad-words");
 const { check, validationResult } = require("express-validator");
 var mongoose = require("mongoose");
 const PostRequest = require("../../models/PostRequest");
+const Setting = require("../../models/Setting");
 
 // @route    POST api/posts
 // @desc     create a post request
@@ -467,4 +469,35 @@ router.delete("/:id/comments/:comment_id", auth, async (req, res) => {
 // 	}
 // });
 
+router.get("/settings/get", auth, async (req, res) => {
+	try {
+		const settings = await Setting.find();
+		return res.status(200).json(settings[0].requirePostApproval);
+	} catch (err) {
+		console.log(err);
+		res.status(500).send("Server Error");
+	}
+});
+
+router.put("/settings/set", auth, async (req, res) => {
+	try {
+		const settings = await Setting.find();
+		const id = settings[0]._id;
+
+		if (req.body.requireApproval === "on") {
+			req.body.requireApproval = true;
+		} else if (req.body.requireApproval === "off") {
+			req.body.requireApproval = false;
+		}
+
+		await Setting.findOneAndUpdate(
+			{ _id: id },
+			{ $set: { requirePostApproval: req.body.requireApproval } }
+		);
+		return res.status(200).json("Settings set success");
+	} catch (err) {
+		console.log(err);
+		res.status(500).send("Server Error");
+	}
+});
 module.exports = router;

@@ -4,30 +4,19 @@ import JoinRequestCard from "../requests/JoinRequestCard";
 import PostRequestCard from "../requests/PostRequestCard";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { CSVLink } from "react-csv";
 import { getJoinRequests, getPostRequests } from "../../actions/request";
 import Spinner from "../layouts/Spinner";
-import AchievementCard from "../extras/AchievementCard";
-import FeedbackCard from "../extras/FeedbackCard";
 import Settings from "../layouts/Settings";
-import Footer from "../layouts/Footer";
 import DisplayAchievments from "./DisplayAchievements";
 import DisplayFeedbacks from "./DisplayFeedbacks";
 
-import {
-	getAchievements,
-	getFeedbacks,
-	deleteAllAchievements,
-	deleteAllFeedbacks,
-} from "../../actions/extras";
+import { getAchievements, getFeedbacks } from "../../actions/extras";
 
 const AdminDash = ({
 	getJoinRequests,
 	getPostRequests,
 	getAchievements,
 	getFeedbacks,
-	deleteAllAchievements,
-	deleteAllFeedbacks,
 	request: { joinRequests, postRequests, loading },
 	auth: { authUser },
 	extras,
@@ -71,20 +60,6 @@ const AdminDash = ({
 		{ label: "Image Link", key: "imgUrl" },
 		{ label: "Certificate Link", key: "proofUrl" },
 	];
-
-	const deleteAll = (callback) => {
-		const conf = window.confirm("This action cannot be undone. Are you sure ?")
-		if (conf){
-			callback();
-		}
-	}
-	const csvReport = {
-		data: extras.achievements,
-		headers: fields,
-		filename: "achievements.csv",
-	};
-
-	// make 6 to 7 states stating that if current element is active or not if true then render with one class else render with another class and make css for both of those classes
 
 	// handle loading state and spinner
 	const [joinTabOpen, setJoinTabOpen] = useState(true);
@@ -147,7 +122,11 @@ const AdminDash = ({
 				>
 					<ul>
 						<li
-							className="admin-side-panel-subitem"
+							className={
+								joinTabOpen || showAllJoin
+									? "selected-tab"
+									: "admin-side-panel-subitem"
+							}
 							onClick={() => {
 								setJoinTabOpen(!joinTabOpen);
 								closeAllTabs();
@@ -194,7 +173,11 @@ const AdminDash = ({
 					</ul>
 					<ul>
 						<li
-							className="admin-side-panel-subitem"
+							className={
+								postTabOpen || showAllPost
+									? "selected-tab"
+									: "admin-side-panel-subitem"
+							}
 							onClick={() => {
 								setPostTabopen(!postTabOpen);
 								closeAllTabs();
@@ -241,7 +224,11 @@ const AdminDash = ({
 					</ul>
 					<ul>
 						<li
-							className="admin-side-panel-subitem"
+							className={
+								showAchievements
+									? "selected-tab"
+									: "admin-side-panel-subitem"
+							}
 							onClick={() => {
 								closeAllTabs();
 								setShowAchievements(true);
@@ -253,7 +240,11 @@ const AdminDash = ({
 					</ul>
 					<ul>
 						<li
-							className="admin-side-panel-subitem"
+							className={
+								showFeedbacks
+									? "selected-tab"
+									: "admin-side-panel-subitem"
+							}
 							onClick={() => {
 								closeAllTabs();
 								setShowFeedbacks(true);
@@ -266,7 +257,11 @@ const AdminDash = ({
 					{authUser.adminType === "head" && (
 						<ul>
 							<li
-								className="admin-side-panel-subitem"
+								className={
+									showSettings
+										? "selected-tab"
+										: "admin-side-panel-subitem"
+								}
 								onClick={() => {
 									closeAllTabs();
 									setShowSettings(true);
@@ -286,7 +281,7 @@ const AdminDash = ({
 							{joinRequests !== null &&
 								joinRequests.length === 0 && (
 									<div className="no-data-page">
-										Nothing to show here
+										No Join Requests Found
 									</div>
 								)}
 							<div className="request-list-admin-dash float-child">
@@ -452,95 +447,14 @@ const AdminDash = ({
 					</React.Fragment>
 				)}
 
-				{showAchievements && <DisplayAchievments achievements={extras.achievements}/>}
-
-				{/* {showAchievements ? (
-					extras.loading ? (
-						<Spinner />
-					) : (
-						<React.Fragment>
-							{extras.achievements.length === 0 && (
-								<div className="no-data-page">
-									Nothing to show here
-								</div>
-							)}
-
-							<div className="request-list-admin-dash float-child">
-								{extras.achievements.length > 0 && (
-									<div style={{ marginTop: "1em" }}>
-										<CSVLink
-											{...csvReport}
-											className="btn btn btn-secondary btn-light mr-2"
-										>
-											Export All
-											<Icon name="arrow-right" />
-										</CSVLink>
-										<button
-											className="btn btn-danger ml-2"
-											onClick={() =>
-												deleteAll(deleteAllAchievements)
-											}
-										>
-											Delete All
-											<Icon name="trash" />
-										</button>
-									</div>
-								)}
-								{extras.achievements.map((item) => {
-									return (
-										<AchievementCard
-											key={item._id}
-											data={item}
-										/>
-									);
-								})}
-							</div>
-						</React.Fragment>
-					)
-				) : (
-					<React.Fragment />
-				)} */}
-
-				{showFeedbacks ? (
-					extras.loading ? (
-						<Spinner />
-					) : (
-						<React.Fragment>
-							{extras.feedbacks.length === 0 && (
-								<div className="no-data-page">
-									Nothing to show here
-								</div>
-							)}
-							<div className="request-list-admin-dash float-child">
-								{extras.feedbacks.length > 0 && (
-									<div style={{ marginTop: "1em" }}>
-										<button
-											className="btn btn-danger ml-2"
-											onClick={() => deleteAll(deleteAllFeedbacks)}
-										>
-											Delete All
-											<Icon name="trash" />
-										</button>
-									</div>
-								)}
-								{extras.feedbacks.map((item) => {
-									return (
-										<FeedbackCard
-											key={item._id}
-											data={item}
-										/>
-									);
-								})}
-							</div>
-						</React.Fragment>
-					)
-				) : (
-					<React.Fragment />
+				{showAchievements && (
+					<DisplayAchievments achievements={extras.achievements} />
 				)}
-
+				{showFeedbacks && (
+					<DisplayFeedbacks feedbacks={extras.feedbacks} />
+				)}
 				{showSettings && <Settings />}
 			</div>
-			{/* <Footer/> */}
 		</React.Fragment>
 	);
 };
@@ -554,8 +468,6 @@ AdminDash.propTypes = {
 	getPostRequests: PropTypes.func.isRequired,
 	getAchievements: PropTypes.func.isRequired,
 	getFeedbacks: PropTypes.func.isRequired,
-	deleteAllAchievements: PropTypes.func.isRequired,
-	deleteAllFeedbacks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -570,6 +482,4 @@ export default connect(mapStateToProps, {
 	getPostRequests,
 	getAchievements,
 	getFeedbacks,
-	deleteAllAchievements,
-	deleteAllFeedbacks,
 })(AdminDash);

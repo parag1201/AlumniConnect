@@ -47,6 +47,7 @@ export const GET_POST = "GET_POST";
 export const CLEAR_POSTS = "CLEAR_POSTS";
 export const CLEAR_REQUESTS = "CLEAR_REQUESTS";
 export const SET_POST_SETTING = "SET_POST_SETTING";
+export const GET_POST_SETTING = "GET_POST_SETTING";
 
 //users related
 export const GET_USER = "GET_USER";

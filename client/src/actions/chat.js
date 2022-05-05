@@ -50,3 +50,12 @@ export const sendMessage = (message) => async (dispatch) => {
 		console.log(err);
 	}
 };
+
+export const getOnlineUserData = (users_ids) => async (dispatch) => {
+	try{
+
+	}
+	catch(err){
+
+	}
+}

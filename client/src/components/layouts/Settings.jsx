@@ -1,14 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setRequirePostApproval } from "../../actions/post";
+import {
+	setRequirePostApproval,
+	getRequirePostApproval,
+} from "../../actions/post";
 
 const Settings = ({
+	setRequirePostApproval,
+	getRequirePostApproval,
 	post: {
 		settings: { requireApproval },
 	},
-	setRequirePostApproval,
 }) => {
+	const [postApproval, setPostApproval] = useState(requireApproval);
+
+	useEffect(async () => {
+		await getRequirePostApproval();
+		setPostApproval(requireApproval);
+	}, []);
+
+	useEffect(() => {
+		setPostApproval(requireApproval);
+	}, [requireApproval])
+
+	const onChange = async (e) => {
+		await setRequirePostApproval(!postApproval);
+		setPostApproval(!postApproval);
+	}
+
 	return (
 		<div className="request-list-admin-dash float-child">
 			<div className="settings-types">
@@ -22,12 +42,10 @@ const Settings = ({
 							type="checkbox"
 							className="custom-control-input"
 							id="customSwitches"
-							onChange={() => {
-								setRequirePostApproval(!requireApproval);
-							}}
-							checked={requireApproval}
+							onChange={(e) => onChange(e)}
+							checked={postApproval}
 						/>
-						{requireApproval && (
+						{postApproval && (
 							<label
 								className="custom-control-label"
 								htmlFor="customSwitches"
@@ -36,7 +54,7 @@ const Settings = ({
 							</label>
 						)}
 
-						{!requireApproval && (
+						{!postApproval && (
 							<label
 								className="custom-control-label"
 								htmlFor="customSwitches"
@@ -52,12 +70,16 @@ const Settings = ({
 };
 
 Settings.propTypes = {
-	post: PropTypes.object.isRequired,
 	setRequirePostApproval: PropTypes.func.isRequired,
+	getRequirePostApproval: PropTypes.func.isRequired,
+	post: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	post: state.post,
 });
 
-export default connect(mapStateToProps, { setRequirePostApproval })(Settings);
+export default connect(mapStateToProps, {
+	setRequirePostApproval,
+	getRequirePostApproval,
+})(Settings);

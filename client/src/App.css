@@ -660,7 +660,21 @@ span {
 	justify-content: space-around;
 	padding: 2rem 4rem;
 	border-left: 2px solid rgba(243, 244, 246);
-	border-right: 1px solid rgba(243, 244, 246);
+	border-right: 3px solid rgba(243, 244, 246);
+}
+
+.selected-tab {
+	font-weight: 500;
+	box-sizing: border-box;
+	background-color: #fff;
+	align-items: center;
+	color: rgba(55, 65, 81);
+	cursor: pointer;
+	display: flex;
+	justify-content: space-around;
+	padding: 2rem 4rem;
+	border-left: 2px solid rgba(236, 72, 153);
+	border-right: 3px solid rgba(243, 244, 246);
 }
 
 .admin-side-panel-subitem:hover {
@@ -1232,3 +1246,17 @@ textarea:focus {
   box-shadow: none;
   color: #2c5777;
 }
+
+.award-actions li {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.award-actions li:first-of-type {
+    margin-left: 0;
+}
+
+.award-actions li:last-of-type {
+    margin-right: 0;
+}
+

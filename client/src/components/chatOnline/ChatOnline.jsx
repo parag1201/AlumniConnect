@@ -17,7 +17,10 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
 	}, [currentId]);
 
 	useEffect(() => {
-		setOnlineFriends(friends.filter((f) => onlineUsers.includes(f._id)));
+		if(onlineUsers.length){
+			// setOnlineFriends(friends.filter((f) => onlineUsers.includes(f._id)));
+			setOnlineFriends(friends);
+		}
 	}, [friends, onlineUsers]);
 
 	const handleClick = async (user) => {
@@ -30,7 +33,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
 			console.log(err);
 		}
 	};
-
+	
 	return (
 		<div className="chatOnline">
 			{onlineFriends.map((o) => (
@@ -47,7 +50,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
 						/>
 						<div className="chatOnlineBadge"></div>
 					</div>
-					<span className="chatOnlineName">{o?.name}</span>
+					<span className="chatOnlineName">{o.name}</span>
 				</div>
 			))}
 		</div>

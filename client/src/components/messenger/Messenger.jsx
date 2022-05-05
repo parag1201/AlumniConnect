@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { io } from "socket.io-client";
 import PropTypes from "prop-types";
 import { closeSideNav } from "../../actions/alert";
-import { getConversations, getMessages, sendMessage } from "../../actions/chat";
+import { getConversations, getMessages, sendMessage, getOnlineUserData } from "../../actions/chat";
 
 const Messenger = ({
 	auth: { authUser, loadingAuth },
@@ -17,6 +17,7 @@ const Messenger = ({
 	getMessages,
 	sendMessage,
 	closeSideNav,
+	getOnlineUserData
 }) => {
 	// const [conversations, setConversations] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
@@ -44,7 +45,7 @@ const Messenger = ({
 				text: data.text,
 				createdAt: Date.now(),
 			});
-			// scrollRef.current?.scrollIntoView({ behavior: "smooth"});
+			scrollRef.current?.scrollIntoView({ behavior: "smooth"});
 		});
 	}, []);
 
@@ -60,11 +61,12 @@ const Messenger = ({
 	useEffect(() => {
 		if (authUser !== null) {
 			socket.current.emit("addUser", authUser._id);
-			socket.current.on("getUsers", (users) => {
+			socket.current.on("getUsers", async (users) => {
 				const usersOnline = authUser.followings.filter((f) =>
 					users.some((u) => u.userId === f)
 				);
-				
+				// const users_data = await getOnlineUserData(usersOnline);
+				console.log(usersOnline)
 				setOnlineUsers(usersOnline);
 			});
 		}
@@ -133,8 +135,8 @@ const Messenger = ({
 		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages, arrivalMessage]);
 
-	console.log(conversations);
-	console.log(process.env)
+	// console.log(conversations);
+	// console.log(process.env)
 	return (
 		<React.Fragment>
 			{/* <Topbar /> */}
@@ -216,6 +218,7 @@ Messenger.propTypes = {
 	getConversations: PropTypes.func.isRequired,
 	getMessages: PropTypes.func.isRequired,
 	sendMessage: PropTypes.func.isRequired,
+	getOnlineUserData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -228,4 +231,5 @@ export default connect(mapStateToProps, {
 	getConversations,
 	getMessages,
 	sendMessage,
+	getOnlineUserData,
 })(Messenger);
