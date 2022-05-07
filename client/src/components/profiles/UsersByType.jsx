@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Modal, Button, Typography, Box } from "@mui/material";
+import { Modal, Box } from "@mui/material";
 import UserCardModal from "./UserCardModal";
 
 const UsersByType = ({ users, label }) => {
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -27,7 +27,10 @@ const UsersByType = ({ users, label }) => {
 
 	return (
 		<React.Fragment>
-			<li className="profile-stat-count user-type-count" onClick={handleOpen}>
+			<li
+				className="profile-stat-count user-type-count"
+				onClick={handleOpen}
+			>
 				<span className="profile-stat-count">{label} </span>
 				<span>{users.length}</span>
 			</li>
@@ -39,7 +42,7 @@ const UsersByType = ({ users, label }) => {
 			>
 				<Box sx={style}>
 					{users.map((user) => {
-						return <UserCardModal profile={user}/>
+						return <UserCardModal profile={user} />;
 					})}
 				</Box>
 			</Modal>

@@ -29,7 +29,11 @@ const PostRequestSchema = new Schema({
 		{
 			type: String,
 		},
-	]
+	],
+	channel: {
+		type: String,
+		required: true,
+	},
 });
 
 module.exports = mongoose.model("post-requests", PostRequestSchema);

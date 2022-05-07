@@ -46,7 +46,7 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
-				<Link to="/feed" className="navbar-link">
+				<Link to="/feed/topic/Placements" className="navbar-link">
 					<span className="hide-sm">Feed</span>
 				</Link>
 			</li>
@@ -90,7 +90,7 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
-				<Link to="/feed" className="navbar-link">
+				<Link to="/feed/topic/Placements" className="navbar-link">
 					<span className="hide-sm">Feed</span>
 				</Link>
 			</li>

@@ -58,7 +58,7 @@ const ProfileTop = ({
 							</p>
 
 							<p>
-								{"Department of"}
+								{"Department of "}
 								<span
 									style={{
 										textTransform: "uppercase",
@@ -100,19 +100,31 @@ const ProfileTop = ({
 							posts
 						</li>
 						<li>
-							<span className="profile-stat-count">188</span>{" "}
+							<span className="profile-stat-count">
+								{profile.followers.length}
+							</span>{" "}
 							followers
 						</li>
 						<li>
-							<span className="profile-stat-count">206</span>{" "}
+							<span className="profile-stat-count">
+								{profile.followings.length}
+							</span>{" "}
 							following
 						</li>
 					</ul>
 				</div>
 				<div className="profile-buttons row">
-					{auth.authUser && profile._id !== auth.authUser._id && (
-						<button className="btn profile-edit-btn">Follow</button>
-					)}
+					{auth.authUser &&
+						profile._id !== auth.authUser._id &&
+						(auth.authUser.followings.includes(profile._id) ? (
+							<button className="btn profile-edit-btn" onClick={() => unFollowUser(profile._id)}>
+								Unfollow
+							</button>
+						) : (
+							<button className="btn profile-edit-btn" onClick={() => followUser(profile._id)}>
+								Follow
+							</button>
+						))}
 					{auth.authUser &&
 						auth.authUser.isAdmin &&
 						auth.authUser.adminType === "head" &&

@@ -7,6 +7,8 @@ import {
 	LOGIN_FAIL,
 	LOG_OUT,
 	ACCOUNT_DELETED,
+	FOLLOW_USER,
+	UNFOLLOW_USER,
 } from "../actions/types";
 
 const initialState = {
@@ -48,6 +50,13 @@ export default function authReducer(state = initialState, action) {
 				isAuthenticated: true,
 				loadingAuth: false,
 				authUser: payload,
+			};
+		case FOLLOW_USER:
+		case UNFOLLOW_USER:
+			return {
+				...state,
+				authUser: { ...state.authUser, followings: payload.followings },
+				loading: false,
 			};
 		default:
 			return state;

@@ -9,6 +9,7 @@ const gravatar = require("gravatar");
 var mongoose = require("mongoose");
 const Post = require("../../models/Post");
 const sendEmail = require("../../utils/sendEmail");
+const Channel = require("../../models/Channel");
 
 router.get("/join", authAdmin, async (req, res) => {
 	try {
@@ -138,7 +139,17 @@ router.get("/post/:id/approve", authAdmin, async (req, res) => {
 	try {
 		console.log("Approve post request recieved " + req.params.id);
 		const request = await PostRequest.findById(req.params.id);
-		const { heading, text, avatar, user, date, name, visibility } = request;
+		const { heading, text, avatar, user, date, name, visibility, channel } =
+			request;
+
+		const result_channel = await Channel.find({ name: channel });
+
+		if (!result_channel) {
+			return res
+				.status(400)
+				.json({ errors: [{ msg: "Channel does not exists" }] });
+		}
+
 		const post = new Post({
 			user,
 			heading,
@@ -147,15 +158,27 @@ router.get("/post/:id/approve", authAdmin, async (req, res) => {
 			date,
 			name,
 			visibility,
+			channel,
 		});
-		await post.save();
+
+		const saved_post = await post.save();
+
+		const post_id = saved_post._id;
+
+		await Channel.findOneAndUpdate(
+			{ name: channel },
+			{
+				$push: { posts: post_id },
+			}
+		);
+
 		await PostRequest.findOneAndDelete(req.params.id);
 
 		const postuser = await User.findById(user).select("-password");
 
 		const options = {
 			subject: "Post Acceepted",
-			text: "Congratulations! Your post has been approved.",
+			text: "Congratulations! Your post has been approved. You can now view this post.",
 			to: postuser.email,
 			from: {
 				name: "Alumni Connect",

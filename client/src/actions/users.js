@@ -16,7 +16,9 @@ import {
 	BLOCK_USER,
 	BLOCK_USER_ERROR,
 	UNBLOCK_USER,
-	UNBLOCK_USER_ERROR
+	UNBLOCK_USER_ERROR,
+	FOLLOW_USER,
+	UNFOLLOW_USER,
 } from "./types";
 
 export const getCurrentUserProfile = () => async (dispatch) => {
@@ -90,11 +92,7 @@ export const addExperience = (formInput, history) => async (dispatch) => {
 			},
 		};
 
-		const res = await axios.put(
-			"/api/users/experience",
-			formInput,
-			config
-		);
+		const res = await axios.put("/api/users/experience", formInput, config);
 		dispatch({
 			type: UPDATE_USER,
 			payload: res.data,
@@ -130,11 +128,7 @@ export const addEducation = (formInput, history) => async (dispatch) => {
 			},
 		};
 
-		const res = await axios.put(
-			"api/users/education",
-			formInput,
-			config
-		);
+		const res = await axios.put("api/users/education", formInput, config);
 		dispatch({
 			type: UPDATE_USER,
 			payload: res.data,
@@ -163,7 +157,6 @@ export const addEducation = (formInput, history) => async (dispatch) => {
 // delete experience
 export const deleteExperience = (id) => async (dispatch) => {
 	try {
-		
 		const res = await axios.delete(`/api/users/experience/${id}`);
 		dispatch({
 			type: UPDATE_USER,
@@ -244,7 +237,7 @@ export const getUserById = (userId) => async (dispatch) => {
 export const getUsers = (searchTerm) => async (dispatch) => {
 	dispatch({ type: CLEAR_USER });
 	try {
-		if(searchTerm === ""){
+		if (searchTerm === "") {
 			searchTerm = "all";
 		}
 		const res = await axios.get(`/api/users/search/${searchTerm}`);
@@ -358,26 +351,28 @@ export const unblockUser = (user_id) => async (dispatch) => {
 
 export const followUser = (user_id) => async (dispatch) => {
 	try {
-		await axios.put(`/api/users/${user_id}/follow`);
+		// console.log("inside actions file");
+		const res = await axios.put(`/api/users/${user_id}/follow`);
+		dispatch({
+			type: FOLLOW_USER,
+			payload: res.data,
+		});
 	} catch (err) {
 		console.log(err);
-		// dispatch({
-		// 	type: UNBLOCK_USER_ERROR,
-		// 	payload: {
-		// 		msg: err.response.statusText,
-		// 		status: err.response.status,
-		// 	},
-		// });
 	}
-}
+};
 
 export const unFollowUser = (user_id) => async (dispatch) => {
 	try {
-		await axios.put(`/api/users/${user_id}/unfollow`);
+		const res = await axios.put(`/api/users/${user_id}/unfollow`);
+		dispatch({
+			type: UNFOLLOW_USER,
+			payload: res.data,
+		});
 	} catch (err) {
 		console.log(err);
 	}
-}
+};
 
 export const getUsersByType = (user_type) => async (dispatch) => {
 	try {
@@ -386,4 +381,4 @@ export const getUsersByType = (user_type) => async (dispatch) => {
 	} catch (err) {
 		console.log(err);
 	}
-}
+};

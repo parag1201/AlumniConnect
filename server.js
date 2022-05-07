@@ -37,7 +37,7 @@ app.use("/api/posts", require("./routes/api/posts"));
 app.use("/api/extras", require("./routes/api/extras"));
 app.use("/api/conversations", require("./routes/api/conversations"));
 app.use("/api/messages", require("./routes/api/message"));
-
+app.use("/api/channels", require("./routes/api/channel"));
 app.use("/awards", express.static(path.join(__dirname, "/images")));
 
 cloudinary.config({

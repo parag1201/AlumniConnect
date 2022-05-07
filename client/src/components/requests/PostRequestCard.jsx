@@ -11,7 +11,7 @@ const PostRequestCard = ({
 	rejectPostRequest,
 	approvePostRequest,
 }) => {
-	const { heading, text, avatar, user, date, name, visibility, images } = request;
+	const { heading, text, avatar, user, date, name, visibility, images, channel } = request;
 	return (
 		<div className="post-request-card">
 			<div className="col-9">
@@ -21,10 +21,10 @@ const PostRequestCard = ({
 							src={avatar}
 							alt="user-avatar"
 							className="avatar-sm round-img"
-							style={{ height: "40px", width: "40px" }}
+							style={{ height: "30px", width:"30px" }}
 						/>
 						<Link to={`/profile/${user}`} style={{"color":"black"}}>
-							<span style={{ fontSize: "1.2rem", marginTop: "3px" }}>
+							<span style={{ fontSize: "1.2rem", margin: "3px", marginLeft:"0.5em", marginRight:"0.5em" }}>
 								{name}
 							</span>
 						</Link>
@@ -40,6 +40,9 @@ const PostRequestCard = ({
 				</div>
 				<div className="row">
 					<span>{parse(text)}</span>
+				</div>
+				<div className="row">
+					<p><strong>Channel : </strong>{channel}</p>
 				</div>
 				<div className="row">
 					{visibility.map((item) => {

@@ -90,7 +90,7 @@ const UserCard = ({
 										</p>
 
 										<p>
-											{"Department of"}
+											{"Department of "}
 											<span
 												style={{
 													textTransform: "uppercase",

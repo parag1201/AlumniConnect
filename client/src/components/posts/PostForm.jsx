@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { createPost, createPostRequest } from "../../actions/post";
+import { createPost, createPostRequest, getRequirePostApproval } from "../../actions/post";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import parse from "html-react-parser";
 import { setAlert } from "../../actions/alert";
+import { getAllChannels } from "../../actions/channel";
 
 const PostForm = ({
 	createPost,
 	setAlert,
 	createPostRequest,
+	getAllChannels,
+	getRequirePostApproval,
 	history,
 	post: {
 		settings: { requireApproval },
@@ -19,11 +22,21 @@ const PostForm = ({
 }) => {
 	const [text, setText] = useState("");
 	const [heading, setHeading] = useState("");
+	const [channel, setChannel] = useState("Research");
 	const [visibleStudent, setVisibleStudent] = useState(false);
 	const [visibleFaculty, setVisibleProf] = useState(false);
 	const [visibleAlumni, setVisibleAlumni] = useState(false);
+	const [channels, setChannels] = useState([]);
+
+	useEffect(async () => {
+		await getRequirePostApproval();
+		const result = await getAllChannels();
+		setChannels(result);
+		console.log(requireApproval);
+	}, []);
 
 	const onSubmit = async (e) => {
+		// console.log(channel);
 		e.preventDefault();
 		if (
 			visibleAlumni === false &&
@@ -33,6 +46,7 @@ const PostForm = ({
 			setAlert("Please check atleast one checkbox", "danger");
 		} else {
 			let success = 0;
+			console.log()
 			if (requireApproval) {
 				success = await createPostRequest({
 					text,
@@ -40,6 +54,7 @@ const PostForm = ({
 					visibleStudent,
 					visibleFaculty,
 					visibleAlumni,
+					channel,
 				});
 			} else {
 				success = await createPost({
@@ -48,14 +63,15 @@ const PostForm = ({
 					visibleStudent,
 					visibleFaculty,
 					visibleAlumni,
+					channel,
 				});
 			}
 
-			if (success) {
-				setTimeout(() => {
-					history.push("/feed");
-				}, 1500);
-			}
+			// if (success) {
+			// 	setTimeout(() => {
+			// 		history.push("/feed");
+			// 	}, 1500);
+			// }
 		}
 	};
 
@@ -145,6 +161,31 @@ const PostForm = ({
 								}
 							/>
 						</div>
+						<div className="form-group">
+							<p
+								style={{ fontSize: "1.2rem" }}
+								className="secondary-text"
+							>
+								Select Channel
+							</p>
+							<select
+								name="channel"
+								id="channel"
+								className="form-dropdown"
+								value={channel}
+								onChange={(event) =>
+									setChannel(event.target.value)
+								}
+							>
+								{channels.map((c) => {
+									return (
+										<option value={c.name} key={c._id}>
+											{c.name}
+										</option>
+									);
+								})}
+							</select>
+						</div>
 					</div>
 					<div className="back-submit-buttons">
 						<Link
@@ -185,6 +226,8 @@ PostForm.propTypes = {
 	createPostRequest: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	post: PropTypes.object.isRequired,
+	getAllChannels: PropTypes.func.isRequired,
+	getRequirePostApproval: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -195,4 +238,6 @@ export default connect(mapStateToProps, {
 	createPost,
 	createPostRequest,
 	setAlert,
+	getAllChannels,
+	getRequirePostApproval,
 })(withRouter(PostForm));

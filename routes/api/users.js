@@ -450,14 +450,26 @@ router.put("/:id/follow", auth, async (req, res) => {
 	if (req.user.id !== req.params.id) {
 		try {
 			const user = await User.findById(req.params.id);
-			// console.log(user._id)
-			const currentUser = await User.findById(req.user.id);
+
 			if (!user.followers.includes(req.user.id)) {
-				await user.updateOne({ $push: { followers: req.user.id } });
-				await currentUser.updateOne({
-					$push: { followings: req.params.id },
+				const updated_profile = await User.findOneAndUpdate(
+					{ _id: req.params.id },
+					{ $push: { followers: req.user.id } },
+					{ new: true }
+				);
+
+				const updated_current_user = await User.findOneAndUpdate(
+					{ _id: req.user.id },
+					{
+						$push: { followings: req.params.id },
+					},
+					{ new: true }
+				);
+
+				res.status(200).json({
+					followers: updated_profile.followers,
+					followings: updated_current_user.followings,
 				});
-				res.status(200).json("user has been followed");
 			} else {
 				res.status(403).json("you allready follow this user");
 			}
@@ -476,13 +488,22 @@ router.put("/:id/unfollow", auth, async (req, res) => {
 	if (req.user.id !== req.params.id) {
 		try {
 			const user = await User.findById(req.params.id);
-			const currentUser = await User.findById(req.user.id);
+
 			if (user.followers.includes(req.user.id)) {
-				await user.updateOne({ $pull: { followers: req.user.id } });
-				await currentUser.updateOne({
-					$pull: { followings: req.params.id },
+				const updated_profile = await User.findOneAndUpdate(
+					{ _id: req.params.id },
+					{ $pull: { followers: req.user.id } },
+					{ new: true }
+				);
+				const updated_current_user = await User.findOneAndUpdate(
+					{ _id: req.user.id },
+					{ $pull: { followings: req.params.id } },
+					{ new: true }
+				);
+				res.status(200).json({
+					followers: updated_profile.followers,
+					followings: updated_current_user.followings,
 				});
-				res.status(200).json("user has been unfollowed");
 			} else {
 				res.status(403).json("you dont follow this user");
 			}

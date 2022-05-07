@@ -63,9 +63,9 @@ const Routes = () => {
 					path="/add-education"
 					component={AddEducation}
 				/>
-
+				<PrivateRoute exact path="/feed/topic/:channel_name" component={Posts}/>
 				{/* <PrivateRoute exact path="/feed?query" component={Posts}/> */}
-				<PrivateRoute exact path="/feed" component={Posts} />
+				{/* <PrivateRoute exact path="/feed" component={Posts} /> */}
 				<PrivateRoute exact path="/create-post" component={PostForm} />
 				<PrivateRoute exact path="/posts/:id" component={PostDisplay} />
 				<AdminRoute exact path="/dashboard" component={AdminDash} />

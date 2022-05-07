@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layouts/Spinner";
 import PropTypes from "prop-types";
@@ -27,6 +27,9 @@ const PostDisplay = ({
 			setText("");
 		}
 	};
+
+	const history = useHistory();
+
 	return (
 		<Fragment>
 			{loading || post === null || authUser === null ? (
@@ -38,16 +41,16 @@ const PostDisplay = ({
 						style={{ marginTop: "1em", marginBottom: "1em" }}
 					>
 						<div className="row heading-area">
-							<Link
-								to="/feed"
+							<button
 								className="btn btn-light"
 								style={{
 									borderRadius: "50% 50%",
 									marginRight: "1em",
 								}}
+								onClick={() => history.goBack()}
 							>
 								<i className="fas fa-chevron-left ml-2 mr-2"></i>
-							</Link>
+							</button>
 							<h4>
 								<strong>{post.heading}</strong>
 							</h4>

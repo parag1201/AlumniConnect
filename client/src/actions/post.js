@@ -18,9 +18,9 @@ import {
 import { setAlert } from "./alert";
 
 // get posts
-export const getPosts = (query) => async (dispatch) => {
+export const getPosts = (query, channel_name) => async (dispatch) => {
 	try {
-		const params = { query };
+		const params = { query, channel_name};
 		const res = await axios.get("/api/posts/search", { params });
 		// console.log(res.data);
 		dispatch({

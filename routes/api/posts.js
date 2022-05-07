@@ -9,6 +9,7 @@ const { check, validationResult } = require("express-validator");
 var mongoose = require("mongoose");
 const PostRequest = require("../../models/PostRequest");
 const Setting = require("../../models/Setting");
+const Channel = require("../../models/Channel");
 
 // @route    POST api/posts
 // @desc     create a post request
@@ -32,6 +33,7 @@ router.post(
 				"visibleAlumni",
 				"Alumni visibility value Is required"
 			).isBoolean(),
+			check("channel", "Channel is Required").not().isEmpty(),
 		],
 	],
 	async (req, res) => {
@@ -62,6 +64,7 @@ router.post(
 				visibleStudent,
 				visibleFaculty,
 				visibleAlumni,
+				channel,
 				imagesArray,
 			} = req.body;
 
@@ -87,6 +90,7 @@ router.post(
 				user: req.user.id,
 				visibility: visible,
 				images: imagesArray,
+				channel: channel,
 			});
 
 			const post = await post_request.save();
@@ -153,6 +157,7 @@ router.post(
 				visibleFaculty,
 				visibleAlumni,
 				imagesArray,
+				channel,
 			} = req.body;
 
 			var visible = [];
@@ -169,6 +174,14 @@ router.post(
 				visible.push("faculty");
 			}
 
+			const result_channel = await Channel.find({ name: channel });
+
+			if (!result_channel) {
+				return res
+					.status(400)
+					.json({ errors: [{ msg: "Channel does not exists" }] });
+			}
+
 			const post = new Post({
 				user: req.user.id,
 				heading,
@@ -177,8 +190,18 @@ router.post(
 				avatar: user.avatar,
 				visibility: visible,
 				images: imagesArray,
+				channel: channel
 			});
+
 			const pst = await post.save();
+			const post_id = pst._id;
+
+			await Channel.findOneAndUpdate(
+				{ name: channel },
+				{
+					$push: { posts: post_id },
+				}
+			);
 			console.log("Post Created");
 			res.json(pst);
 		} catch (error) {
@@ -195,13 +218,15 @@ router.post(
 router.get("/search", auth, async (req, res) => {
 	try {
 		const searchTerm = req.query.query;
+		const channel_name = req.query.channel_name;
 		var posts = [];
 		if (searchTerm === "") {
-			posts = await Post.find().sort({ date: -1 });
+			posts = await Post.find({channel: channel_name}).sort({ date: -1 });
 		} else {
 			posts = await Post.find(
-				{ $text: { $search: searchTerm } },
-				{ score: { $meta: "textScore" } }
+				{ $text: { $search: searchTerm} },
+				{ score: { $meta: "textScore" } },
+				{channel: channel_name}
 			).sort({ score: { $meta: "textScore" } });
 		}
 
@@ -500,4 +525,5 @@ router.put("/settings/set", auth, async (req, res) => {
 		res.status(500).send("Server Error");
 	}
 });
+
 module.exports = router;

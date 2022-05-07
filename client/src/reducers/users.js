@@ -14,6 +14,8 @@ import {
 	UNBLOCK_USER,
 	UPDATE_USER,
 	UNBLOCK_USER_ERROR,
+	FOLLOW_USER,
+	UNFOLLOW_USER,
 } from "../actions/types";
 
 const initialSate = {
@@ -116,6 +118,18 @@ export default function userReducer(state = initialSate, action) {
 						  }
 						: user_item
 				),
+			};
+		case FOLLOW_USER:
+			return {
+				...state,
+				userProfile: { ...state.userProfile, followers: payload.followers },
+				loading: false,
+			};
+		case UNFOLLOW_USER:
+			return {
+				...state,
+				userProfile: { ...state.userProfile, followers: payload.followers },
+				loading: false,
 			};
 		default:
 			return state;

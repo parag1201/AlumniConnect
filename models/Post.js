@@ -33,6 +33,10 @@ const PostSchema = new Schema({
 			},
 		},
 	],
+	channel: {
+		type: String,
+		required: true,
+	},
 	dislikes: [
 		{
 			user: {
