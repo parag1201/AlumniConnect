@@ -116,7 +116,7 @@ const Help = ({ submitFeedback }) => {
 						<i className="fa fa-envelope mail-icon"></i>
 						<div className="contact-info">
 							<p>alumni.coordinator@iiita.ac.in</p>
-							<p>dean.aa@iiita.ac.in</p>
+							<p>alumni.connect@iiita.ac.in</p>
 						</div>
 					</div>
 					<div className="help-section help-phone-div">
@@ -124,7 +124,10 @@ const Help = ({ submitFeedback }) => {
 							className="fa fa-phone phone-icon"
 							aria-hidden="true"
 						></i>
-						<p className="contact-info">(91) 0532 292 2042/2290</p>
+						<div className="contact-info">
+							<p>(91) 0532 292 2599/2308</p>
+							<p>(91) 7317319062</p>
+						</div>
 					</div>
 				</div>
 			</div>

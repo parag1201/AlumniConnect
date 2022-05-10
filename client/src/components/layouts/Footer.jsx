@@ -129,6 +129,12 @@ function Footer() {
 								>
 									alumni.coordinator@iiita.ac.in
 								</p>
+								<p
+									className="contact-info-text"
+									style={{ fontSize: "15px" }}
+								>
+									alumni.connect@iiita.ac.in
+								</p>
 							</div>
 						</div>
 						<div className="help-section help-phone-div pt-1 pb-1 mt-2">

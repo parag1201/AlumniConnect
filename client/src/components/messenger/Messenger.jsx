@@ -8,7 +8,12 @@ import { connect } from "react-redux";
 import { io } from "socket.io-client";
 import PropTypes from "prop-types";
 import { closeSideNav } from "../../actions/alert";
-import { getConversations, getMessages, sendMessage, getOnlineUserData } from "../../actions/chat";
+import {
+	getConversations,
+	getMessages,
+	sendMessage,
+	getOnlineUserData,
+} from "../../actions/chat";
 
 const Messenger = ({
 	auth: { authUser, loadingAuth },
@@ -17,7 +22,7 @@ const Messenger = ({
 	getMessages,
 	sendMessage,
 	closeSideNav,
-	getOnlineUserData
+	getOnlineUserData,
 }) => {
 	// const [conversations, setConversations] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
@@ -45,7 +50,7 @@ const Messenger = ({
 				text: data.text,
 				createdAt: Date.now(),
 			});
-			scrollRef.current?.scrollIntoView({ behavior: "smooth"});
+			scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 		});
 	}, []);
 
@@ -66,7 +71,7 @@ const Messenger = ({
 					users.some((u) => u.userId === f)
 				);
 				// const users_data = await getOnlineUserData(usersOnline);
-				console.log(usersOnline)
+				console.log(usersOnline);
 				setOnlineUsers(usersOnline);
 			});
 		}
@@ -74,16 +79,16 @@ const Messenger = ({
 
 	useEffect(() => {
 		// if (authUser !== null) {
-			// const getConversations = async () => {
-			// 	try {
-			// 		const res = await axios.get("localhost:5000/api/conversations/" + authUser._id
-			// 		);
-			// 		setConversations(res.data);
-			// 	} catch (err) {
-			// 		console.log(err);
-			// 	}
-			// };
-			getConversations(authUser);
+		// const getConversations = async () => {
+		// 	try {
+		// 		const res = await axios.get("localhost:5000/api/conversations/" + authUser._id
+		// 		);
+		// 		setConversations(res.data);
+		// 	} catch (err) {
+		// 		console.log(err);
+		// 	}
+		// };
+		getConversations(authUser);
 		// }
 	}, [authUser]);
 
@@ -148,7 +153,14 @@ const Messenger = ({
 							className="chatMenuInput"
 						/>
 						{conversations.map((c) => (
-							<div onClick={() => setCurrentChat(c)}>
+							<div
+								onClick={() => setCurrentChat(c)}
+								className={
+									c._id === currentChat?._id
+										? "selected-chat"
+										: ""
+								}
+							>
 								<Conversation
 									key={c._id}
 									conversation={c}

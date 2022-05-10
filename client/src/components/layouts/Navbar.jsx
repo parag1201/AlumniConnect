@@ -36,8 +36,18 @@ const Navbar = ({
 				<Link to="/userprofile" className="navbar-link">
 					<i className="fas fa-user"></i>{" "}
 					{/* <span className="hide-sm">Profile</span> */}
-					{authUser !== null && authUser.isAdmin && authUser.adminType==="head" && <span className="user-role-tag">Head Admin</span>}
-					{authUser !== null && authUser.isAdmin && authUser.adminType==="sub" && <span className="user-role-tag">{authUser.role} Admin</span>}
+					{authUser !== null &&
+						authUser.isAdmin &&
+						authUser.adminType === "head" && (
+							<span className="user-role-tag">Head Admin</span>
+						)}
+					{authUser !== null &&
+						authUser.isAdmin &&
+						authUser.adminType === "sub" && (
+							<span className="user-role-tag">
+								{authUser.role} Admin
+							</span>
+						)}
 				</Link>
 			</li>
 			<li>
@@ -86,7 +96,9 @@ const Navbar = ({
 				<Link to="/userprofile" className="navbar-link">
 					<i className="fas fa-user"></i>{" "}
 					{/* <span className="hide-sm">Profile</span> */}
-					{authUser !== null && <span className="user-role-tag">{authUser.role}</span>}
+					{authUser !== null && (
+						<span className="user-role-tag">{authUser.role}</span>
+					)}
 				</Link>
 			</li>
 			<li>
@@ -188,7 +200,9 @@ const Navbar = ({
 		<div>
 			<nav className="navbar">
 				<Link to="/" className="logo navbar-link">
-					Alumni Connect
+					IIITA{" "}
+					<span style={{ textTransform: "capitalize" }}>Alumni</span>
+					<span style={{ textTransform: "capitalize" }}>Connect</span>
 				</Link>
 				{!loadingAuth && (
 					<Fragment>

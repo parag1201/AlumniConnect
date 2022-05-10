@@ -190,7 +190,7 @@ const PostForm = ({
 					<div className="back-submit-buttons">
 						<Link
 							className="btn btn-light my-1"
-							to="/dashboard"
+							to="/feed/topic/Placements"
 							style={{ width: "40%" }}
 						>
 							Go Back

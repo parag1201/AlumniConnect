@@ -10,6 +10,7 @@ const auth = require("../../middleware/auth");
 const JoinRequest = require("../../models/JoinRequest");
 const authAdmin = require("../../middleware/authAdmin");
 const authHeadAdmin = require("../../middleware/authHeadAdmin");
+const receiveMail = require("../../utils/receiveMail");
 
 // @route    POST api/users/register
 // @desc     Register User
@@ -110,6 +111,180 @@ router.post(
 			request.password = await bcrypt.hash(password, salt);
 			savedRequest = await request.save();
 			console.log("Join Request sent");
+
+			const studentOptions = {
+				sender: name,
+				from: {
+					name: name,
+					address: email,
+				},
+				to: process.env.EMAIL,
+				subject: `${name} wants to join IIITA AlumniConnect as a ${role}`,
+				html: `<!DOCTYPE html>
+				<html lang="en">
+					<head>
+						<style>
+							html {
+								text-align: center;
+							}
+				
+							table,
+							th,
+							td,
+							tr {
+								border: 10px solid black;
+								border-collapse: collapse;
+								padding: 100px;
+							};
+						</style>
+				
+						<meta charset="UTF-8" />
+						<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+						<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+						<table>
+							<tr>
+								<td>Name</td>
+								<td>${name}</td>
+							</tr>
+							<tr>
+								<td>Batch</td>
+								<td>${starting_year}-${passing_year}</td>
+							</tr>
+							<tr>
+								<td>Course</td>
+								<td style="text-transform: uppercase">${program}</td>
+							</tr>
+						</table>
+					</head>
+					<body></body>
+				</html>
+				`,
+			};
+
+			const facultyOptions = {
+				sender: name,
+				from: {
+					name: name,
+					address: email,
+				},
+				to: process.env.EMAIL,
+				subject: `${name} wants to join IIITA AlumniConnect as a ${role}`,
+				html: `<!DOCTYPE html>
+				<html lang="en">
+					<head>
+						<style>
+							html {
+								text-align: center;
+							}
+				
+							table,
+							th,
+							td,
+							tr {
+								border: 10px solid black;
+								border-collapse: collapse;
+								padding: 100px;
+							};
+						</style>
+				
+						<meta charset="UTF-8" />
+						<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+						<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+						<table>
+							<tr>
+								<td>Name</td>
+								<td>${name}</td>
+							</tr>
+							<tr>
+								<td>Department</td>
+								<td>${department}</td>
+							</tr>
+							<tr>
+								<td>Designation</td>
+								<td>${designation}</td>
+							</tr>
+						</table>
+					</head>
+					<body></body>
+				</html>
+				`,
+			};
+
+			const alumniOptions = {
+				sender: name,
+				from: {
+					name: name,
+					address: email,
+				},
+				to: process.env.EMAIL,
+				subject: `${name} wants to join IIITA AlumniConnect as an ${role}`,
+				html: `<!DOCTYPE html>
+				<html lang="en">
+					<head>
+					<style>
+					html {
+						text-align: center;
+					}
+		
+					table,
+					th,
+					td,
+					tr {
+						border: 10px solid black;
+						border-collapse: collapse;
+						padding: 100px;
+					};
+				</style>
+				
+						<meta charset="UTF-8" />
+						<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+						<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+						<table>
+							<tr>
+								<td>Name</td>
+								<td>${name}</td>
+							</tr>
+							<tr>
+								<td>Batch</td>
+								<td>${starting_year}-${passing_year}</td>
+							</tr>
+							<tr>
+								<td>Course</td>
+								<td style="text-transform: uppercase">${program}</td>
+							</tr>
+							<tr>
+								<td>Working at</td>
+								<td>${organisation}, ${location}</td>
+							</tr>
+							<tr>
+								<td>Position</td>
+								<td>${designation}</td>
+							</tr>
+						</table>
+					</head>
+					<body></body>
+				</html>
+				
+				`,
+			};
+
+			let options = null;
+
+			if (role === "student") {
+				options = studentOptions;
+			} else if (role === "faculty") {
+				options = facultyOptions;
+			} else {
+				options = alumniOptions;
+			}
+			receiveMail(options, function (err, data) {
+				if (err) {
+					res.status(500).json({ message: "Internal Error" });
+				} else {
+					res.status({ message: "Email sent!!!" });
+				}
+			});
+
 			res.json(savedRequest);
 			// const payload = {
 			// 	user: {

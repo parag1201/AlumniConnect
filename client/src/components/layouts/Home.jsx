@@ -15,7 +15,7 @@ const Home = ({ closeSideNav, isAuth}) => {
 		<section className="landing">
 			<div className="dark-overlay">
 				<div className="landing-inner">
-					<h1 className="x-large">Alumni Connect</h1>
+					<h1 className="x-large">AlumniConnect</h1>
 					<p className="lead lead-1">
 						Create a profile, share and interact
 					</p>

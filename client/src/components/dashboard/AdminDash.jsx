@@ -305,7 +305,7 @@ const AdminDash = ({
 					<React.Fragment>
 						{studentJoin.length === 0 && (
 							<div className="request-list-admin-dash float-child no-data-page">
-								Nothing to show here
+								No Join requests found
 							</div>
 						)}
 						<div className="request-list-admin-dash float-child">
@@ -325,7 +325,7 @@ const AdminDash = ({
 					<React.Fragment>
 						{professorJoin.length === 0 && (
 							<div className="request-list-admin-dash float-child no-data-page">
-								Nothing to show here
+								No Join requests found
 							</div>
 						)}
 						<div className="request-list-admin-dash float-child">
@@ -345,7 +345,7 @@ const AdminDash = ({
 					<React.Fragment>
 						{alumniJoin.length === 0 && (
 							<div className="request-list-admin-dash float-child no-data-page">
-								Nothing to show here
+								No Join requests found
 							</div>
 						)}
 						<div className="request-list-admin-dash float-child">
@@ -368,7 +368,7 @@ const AdminDash = ({
 						<React.Fragment>
 							{postRequests.length === 0 && (
 								<div className="no-data-page">
-									Nothing to show here
+									No Post Requests found
 								</div>
 							)}
 							<div className="request-list-admin-dash float-child">

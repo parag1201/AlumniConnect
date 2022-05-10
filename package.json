@@ -29,6 +29,7 @@
     "express-validator": "^6.10.0",
     "googleapis": "^100.0.0",
     "gravatar": "^1.8.1",
+    "handlebars": "^4.7.7",
     "html-react-parser": "^1.4.10",
     "json2csv": "^5.0.7",
     "jsonwebtoken": "^8.5.1",
