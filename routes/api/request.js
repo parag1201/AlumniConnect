@@ -143,7 +143,7 @@ router.get("/post/:id/approve", authAdmin, async (req, res) => {
 	try {
 		console.log("Approve post request recieved " + req.params.id);
 		const request = await PostRequest.findById(req.params.id);
-		const { heading, text, avatar, user, date, name, visibility, channel } =
+		const { heading, text, avatar, user, date, name, visibility, channel, images } =
 			request;
 
 		const result_channel = await Channel.find({ name: channel });
@@ -163,6 +163,7 @@ router.get("/post/:id/approve", authAdmin, async (req, res) => {
 			name,
 			visibility,
 			channel,
+			images
 		});
 
 		const saved_post = await post.save();

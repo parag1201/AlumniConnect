@@ -22,7 +22,6 @@ const io = require("socket.io")(http, {
 
 connectDB();
 
-
 // init middleware for parsing
 app.use(express.json({ extended: false }));
 
@@ -74,8 +73,6 @@ app.post("/upload-image", upload.single("file"), function (req, res) {
 	res.json(req.file.filename);
 });
 
-
-
 let users = [];
 
 const addUser = (userId, socketId) => {
@@ -105,13 +102,13 @@ io.on("connection", (socket) => {
 
 	//send and get message
 	socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-		console.log("send message")
+		console.log("send message");
 		const user = getUser(receiverId);
-		console.log(users)
-		console.log(receiverId)
-		console.log("Reciever:")
+		console.log(users);
+		console.log(receiverId);
+		console.log("Reciever:");
 		console.log(user);
-		if(user){
+		if (user) {
 			io.to(user.socketId).emit("getMessage", {
 				senderId,
 				text,
@@ -125,10 +122,7 @@ io.on("connection", (socket) => {
 		removeUser(socket.id);
 		io.emit("getUsers", users);
 	});
-
 });
-
-
 
 // schedule.scheduleJob("*/2 * * * * *", async () => {
 // 	console.log("user upgrade job running");

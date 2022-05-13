@@ -621,9 +621,13 @@ tr > .btn {
 	position: relative;
 	cursor: pointer;
 	padding: 0;
-	left: 97%;
+	left: 95%;
 	bottom: 2.2em;
 	opacity: 0.6;
+}
+
+.delete-comment-button {
+	cursor: pointer
 }
 
 .comments-section {

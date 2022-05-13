@@ -54,19 +54,22 @@ const PostForm = ({
 			setAlert("Please check atleast one checkbox", "danger");
 		} else {
 			let success = 0;
-			// console.log()
-			const formData1 = new FormData();
-			formData1.append("file", image);
 
 			const config = {
 				headers: {
 					"Content-Type": "multipart/form-data",
 				},
 			};
-
-			const res1 = await axios.post("/upload-image", formData1, config);
+			
 			const images = [];
-			images.push(res1.data);
+			
+			if(image !== ""){
+				const formData1 = new FormData();
+				formData1.append("file", image);
+				const res1 = await axios.post("/upload-image", formData1, config);
+				images.push(res1.data);
+			}
+			
 			if (requireApproval) {
 				success = await createPostRequest({
 					text,

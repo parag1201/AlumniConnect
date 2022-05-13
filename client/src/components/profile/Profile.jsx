@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layouts/Spinner";
 import { getUserById } from "../../actions/users";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
 import ProfileExperience from "./ProfileExperience";
@@ -15,6 +15,7 @@ const Profile = ({
 	users: { userProfile, loading },
 	match,
 }) => {
+	const history = useHistory();
 	useEffect(() => {
 		getUserById(match.params.id);
 	}, [getUserById, match.params.id]);
@@ -24,12 +25,12 @@ const Profile = ({
 				<Spinner />
 			) : (
 				<Fragment>
-					<Link
-						to="/profiles"
+					<button
 						className="btn btn-light mb-5 mt-5 mr-2"
+						onClick={() => history.goBack()}
 					>
 						Back To Profiles
-					</Link>
+					</button>
 					{/* {auth.isAuthenticated &&
 						auth.loading === false &&
 						auth.user._id === profile.user._id && (

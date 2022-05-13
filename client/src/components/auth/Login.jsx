@@ -26,7 +26,7 @@ const Login = ({ login, isAuthenticated, closeSideNav }) => {
 	};
 
 	if (isAuthenticated) {
-		return <Redirect to="/feed/topic/Placements" />;
+		return <Redirect to="/feed/topic/Placements?search=" />;
 	}
 
 	return (

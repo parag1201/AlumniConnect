@@ -88,8 +88,7 @@ const PostCard = ({
 							</div>
 						</button>
 						{!loadingAuth && authUser._id === user && (
-							<Link
-								to="/posts"
+							<button
 								className="btn post-action"
 								onClick={(e) => deletePost(_id)}
 							>
@@ -97,7 +96,7 @@ const PostCard = ({
 									className="fa fa-trash post-icons"
 									aria-hidden="true"
 								/>
-							</Link>
+							</button>
 						)}
 						<p className="post-date post-action">
 							<i

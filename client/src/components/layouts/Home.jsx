@@ -9,7 +9,7 @@ const Home = ({ closeSideNav, isAuth}) => {
 		closeSideNav();
 	},[]);
 	if (isAuth) {
-		return <Redirect to="/feed/topic/Placements" />;
+		return <Redirect to="/feed/topic/Placements?search=" />;
 	}
 	return (
 		<section className="landing">

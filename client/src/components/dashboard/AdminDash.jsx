@@ -285,7 +285,7 @@ const AdminDash = ({
 											No Join Requests Found
 										</div>
 									)}
-								<div className="request-list-admin-dash float-child">
+								<div className="request-list-admin-dash float-child" style={{height: "800px"}}>
 									{joinRequests !== null &&
 										joinRequests.map((item) => {
 											return (

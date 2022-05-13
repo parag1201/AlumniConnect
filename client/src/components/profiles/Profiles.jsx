@@ -3,10 +3,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layouts/Spinner";
 import UserCard from "./UserCard";
+import { useLocation } from "react-router-dom";
 import { getUsers, getUsersByType } from "../../actions/users";
 import { closeSideNav } from "../../actions/alert";
 import { Modal, Button, Typography, Box } from "@mui/material";
 import UsersByType from "./UsersByType";
+
+function useQuery() {
+	return new URLSearchParams(useLocation().search);
+}
 
 const Profiles = ({
 	getUsers,
@@ -14,11 +19,14 @@ const Profiles = ({
 	getUsersByType,
 	user: { users, loading },
 }) => {
-	const [query, setQuery] = useState("");
 	const [students, setStudents] = useState([]);
 	const [faculty, setFaculty] = useState([]);
 	const [alumni, setAlumni] = useState([]);
 	const [admins, setAdmins] = useState([]);
+
+	const query = useQuery();
+	const searchQuery = query.get("search");
+	const [search, setSearch] = useState("");
 
 	useEffect(async () => {
 		closeSideNav();
@@ -36,11 +44,13 @@ const Profiles = ({
 	}, []);
 
 	useEffect(() => {
-		getUsers(query);
-	}, [query]);
+		getUsers(searchQuery);
+	}, []);
 
-	const onSubmit = () => {
-		getUsers(query);
+	const handleSubmit = () => {
+		if(search.trim()){
+			getUsers(searchQuery);
+		}
 	};
 
 	return (
@@ -60,25 +70,22 @@ const Profiles = ({
 						connect with members
 					</p>
 					<div className="search-div">
-						<form
-							method="get"
-							className="col-12 search-form"
-							onSubmit={() => onSubmit()}
-						>
+						<form method="get" className="col-12 search-form">
 							<input
 								type="text"
-								name="query"
-								id="search-box"
+								type="text"
+								name="search"
+								id="search"
 								placeholder="Search Members..."
 								className="col-9 search-input posts-top-item"
-								value={query}
-								onChange={(e) => setQuery(e.target.value)}
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
 							/>
 							<input
 								type="submit"
 								value="Search"
 								className="btn btn-primary col-3 posts-top-item"
-								onSubmit={() => onSubmit()}
+								onClick={handleSubmit}
 							/>
 						</form>
 					</div>

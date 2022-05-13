@@ -63,10 +63,11 @@ const PostDisplay = ({
 								post.images.map((image_name) => {
 									return (
 										<img
+											key={image_name}
 											src={`http://localhost:5000/awards/${image_name}`}
 											style={{
-												height: "500px",
-												width: "700px",
+												maxHeight: "500px",
+												maxWidth: "700px",
 											}}
 										></img>
 									);
@@ -75,7 +76,7 @@ const PostDisplay = ({
 						<div className="row comments-section">
 							<div className="add-comment">
 								<div
-									className="col-md-1"
+									className="col-md-1 col-sm-1 col-xs-1"
 									style={{ textAlign: "center" }}
 								>
 									<img
@@ -84,7 +85,7 @@ const PostDisplay = ({
 										className="avatar avatar-sm rounded-circle"
 									/>
 								</div>
-								<div className="col-md-11">
+								<div className="col-md-11 col-sm-11 col-xs-11">
 									<input
 										type="text"
 										placeholder="Add Comment..."
@@ -114,6 +115,8 @@ const PostDisplay = ({
 									<SingleComment
 										key={com._id}
 										comment={com}
+										currentUser={authUser._id}
+										postId={post._id}
 									/>
 								))}
 							</div>

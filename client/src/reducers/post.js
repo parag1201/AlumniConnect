@@ -10,6 +10,7 @@ import {
 	CLEAR_POSTS,
 	SET_POST_SETTING,
 	GET_POST_SETTING,
+	REMOVE_COMMENT,
 } from "../actions/types";
 
 const initialState = {
@@ -111,6 +112,17 @@ export default function postReducer(state = initialState, action) {
 				...state,
 				settings: { ...state.settings, requireApproval: payload },
 				loading: false,
+			};
+
+		case REMOVE_COMMENT:
+			return {
+				...state,
+				post: {
+					...state.post,
+					comments: state.post.comments.filter(
+						(x) => x._id !== payload
+					),
+				},
 			};
 		default:
 			return state;

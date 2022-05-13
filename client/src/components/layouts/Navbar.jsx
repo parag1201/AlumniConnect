@@ -28,7 +28,7 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
-				<Link to="/profiles?query=" className="navbar-link">
+				<Link to="/profiles?search=" className="navbar-link">
 					<span className="hide-sm">Members</span>
 				</Link>
 			</li>
@@ -56,7 +56,7 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
-				<Link to="/feed/topic/Placements" className="navbar-link">
+				<Link to="/feed/topic/Placements?search=" className="navbar-link">
 					<span className="hide-sm">Feed</span>
 				</Link>
 			</li>
@@ -93,7 +93,7 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
-				<Link to="/profiles?query=" className="navbar-link">
+				<Link to="/profiles?search=" className="navbar-link">
 					<span className="hide-sm">Members</span>
 				</Link>
 			</li>
@@ -108,7 +108,7 @@ const Navbar = ({
 			</li>
 
 			<li>
-				<Link to="/feed/topic/Placements" className="navbar-link">
+				<Link to="/feed/topic/Placements?search=" className="navbar-link">
 					<span className="hide-sm">Feed</span>
 				</Link>
 			</li>

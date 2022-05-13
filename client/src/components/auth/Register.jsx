@@ -90,7 +90,7 @@ const Register = ({ setAlert, register, closeSideNav, isAuthenticated }) => {
 					"_blank"
 				);
 			}
-			const success = register({
+			const success = await register({
 				name,
 				email,
 				password,
@@ -104,6 +104,7 @@ const Register = ({ setAlert, register, closeSideNav, isAuthenticated }) => {
 				department,
 				working_area,
 			});
+			console.log(success);
 			if (success) {
 				setTimeout(() => {
 					history.push("/");
@@ -111,11 +112,6 @@ const Register = ({ setAlert, register, closeSideNav, isAuthenticated }) => {
 			}
 		}
 	};
-
-	if (isAuthenticated) {
-		return <Redirect to="/dashboard" />;
-	}
-
 	return (
 		<div className="form-container">
 			<h1>Sign Up</h1>

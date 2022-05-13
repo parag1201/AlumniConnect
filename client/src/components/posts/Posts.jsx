@@ -6,8 +6,12 @@ import Spinner from "../layouts/Spinner";
 import PostCard from "./PostCard";
 import { Link } from "react-router-dom";
 import { closeSideNav } from "../../actions/alert";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { getAllChannels } from "../../actions/channel";
+
+function useQuery() {
+	return new URLSearchParams(useLocation().search);
+}
 
 const Posts = ({
 	getPosts,
@@ -17,20 +21,32 @@ const Posts = ({
 	auth: { authUser, loadingAuth },
 	match,
 }) => {
-	const [query, setQuery] = useState("");
+
+
+	const query = useQuery();
+	const searchQuery = query.get('search');
+	const [search, setSearch] = useState("");
 	const [channels, setChannels] = useState([]);
-	console.log(match.params);
+
+	// console.log(match.params);
+	// console.log(searchQuery);
 	useEffect(async () => {
 		closeSideNav();
-		getPosts(query, match.params.channel_name);
+		getPosts(searchQuery, match.params.channel_name);
 		const result = await getAllChannels();
 		setChannels(result);
 	}, [match.params.channel_name]);
 
-	const onSubmit = (e) => {
-		e.preventDefault();
-		getPosts(query, match.params.channel_name);
-	};
+	// const onSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	getPosts(query, match.params.channel_name);
+	// };
+
+	const searchPosts = () => {
+		if(search.trim()){
+			getPosts(searchQuery, match.params.channel_name)
+		}
+	}
 
 	return loading ? (
 		<Spinner />
@@ -67,7 +83,7 @@ const Posts = ({
 									}
 								>
 									<Link
-										to={`/feed/topic/${c.name}`}
+										to={`/feed/topic/${c.name}?search=${search}`}
 										className="side-nav-channel-link"
 									>
 										<span>{c.name}</span>
@@ -92,21 +108,21 @@ const Posts = ({
 							<form
 								method="get"
 								className="col-9 search-form"
-								onSubmit={(e) => onSubmit(e)}
 							>
 								<input
 									type="text"
-									name="query"
+									name="search"
 									id="search"
 									placeholder="Search here..."
 									className="col-9 search-input posts-top-item"
-									value={query}
-									onChange={(e) => setQuery(e.target.value)}
+									value={search}
+									onChange={(e) => setSearch(e.target.value)}
 								/>
 								<input
 									type="submit"
 									value="Search"
 									className="btn btn-primary col-3 posts-top-item"
+									onClick={searchPosts}
 								/>
 							</form>
 						</div>
