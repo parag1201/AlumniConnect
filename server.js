@@ -125,11 +125,8 @@ io.on("connection", (socket) => {
 		removeUser(socket.id);
 		io.emit("getUsers", users);
 	});
-});
 
-const User = require("./models/User");
-const schedule = require("node-schedule");
-const receiveMail = require("./utils/receiveMail");
+});
 
 
 

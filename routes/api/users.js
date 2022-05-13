@@ -604,15 +604,26 @@ router.get("/:id/unblock", authHeadAdmin, async (req, res) => {
 	}
 });
 
-//get friends
+//get current user's friends
 router.get("/friends/:userId", auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.params.userId);
-		const friends = await Promise.all(
-			user.followings.map((friendId) => {
-				return User.findById(friendId).select("-password");
-			})
+		if (!user) {
+			return res
+				.status(400)
+				.json({ errors: [{ msg: "Current User not exists" }] });
+		}
+		
+		// people who I follow and who follow me (common ones)
+		let friend_IDs = user.followings.filter((x) =>
+			user.followers.includes(x)
 		);
+
+		let friends = [];
+		for (let i = 0; i < friend_IDs.length; i++) {
+			const us = await User.findById(friend_IDs[i]).select("-password");
+			friends.push(us);
+		}
 		res.status(200).json(friends);
 	} catch (err) {
 		res.status(500).json(err);

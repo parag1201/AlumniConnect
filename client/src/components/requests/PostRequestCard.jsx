@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { rejectPostRequest, approvePostRequest } from "../../actions/request";
 import parse from "html-react-parser";
 
@@ -11,7 +11,17 @@ const PostRequestCard = ({
 	rejectPostRequest,
 	approvePostRequest,
 }) => {
-	const { heading, text, avatar, user, date, name, visibility, images, channel } = request;
+	const {
+		heading,
+		text,
+		avatar,
+		user,
+		date,
+		name,
+		visibility,
+		images,
+		channel,
+	} = request;
 	return (
 		<div className="post-request-card">
 			<div className="col-9">
@@ -21,10 +31,20 @@ const PostRequestCard = ({
 							src={avatar}
 							alt="user-avatar"
 							className="avatar-sm round-img"
-							style={{ height: "30px", width:"30px" }}
+							style={{ height: "30px", width: "30px" }}
 						/>
-						<Link to={`/profile/${user}`} style={{"color":"black"}}>
-							<span style={{ fontSize: "1.2rem", margin: "3px", marginLeft:"0.5em", marginRight:"0.5em" }}>
+						<Link
+							to={`/profile/${user}`}
+							style={{ color: "black" }}
+						>
+							<span
+								style={{
+									fontSize: "1.2rem",
+									margin: "3px",
+									marginLeft: "0.5em",
+									marginRight: "0.5em",
+								}}
+							>
 								{name}
 							</span>
 						</Link>
@@ -40,13 +60,32 @@ const PostRequestCard = ({
 				</div>
 				<div className="row">
 					<span>{parse(text)}</span>
+					{request.images !== null &&
+						request.images.map((image_name) => {
+							return (
+								<img
+									src={`http://localhost:5000/awards/${image_name}`}
+									style={{
+										height: "500px",
+										width: "700px",
+									}}
+								/>
+							);
+						})}
 				</div>
 				<div className="row">
-					<p><strong>Channel : </strong>{channel}</p>
+					<p>
+						<strong>Channel : </strong>
+						{channel}
+					</p>
 				</div>
 				<div className="row">
 					{visibility.map((item) => {
-						return <span key={item} className="tag">{item}</span>
+						return (
+							<span key={item} className="tag">
+								{item}
+							</span>
+						);
 					})}
 				</div>
 			</div>

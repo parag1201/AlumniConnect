@@ -34,7 +34,9 @@ const PostDisplay = ({
 		<Fragment>
 			{loading || post === null || authUser === null ? (
 				<Spinner />
-			) : post.visibility.includes(authUser.role) || post.user === authUser._id || authUser.isAdmin ? (
+			) : post.visibility.includes(authUser.role) ||
+			  post.user === authUser._id ||
+			  authUser.isAdmin ? (
 				<Fragment>
 					<div
 						className="container my-container"
@@ -57,6 +59,18 @@ const PostDisplay = ({
 						</div>
 						<div className="row post-text-area">
 							{parse(post.text)}
+							{post.images !== null &&
+								post.images.map((image_name) => {
+									return (
+										<img
+											src={`http://localhost:5000/awards/${image_name}`}
+											style={{
+												height: "500px",
+												width: "700px",
+											}}
+										></img>
+									);
+								})}
 						</div>
 						<div className="row comments-section">
 							<div className="add-comment">

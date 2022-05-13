@@ -67,6 +67,7 @@ const PostSchema = new Schema({
 			},
 		},
 	],
+	images: [String],
 	date: {
 		type: Date,
 		default: Date.now,

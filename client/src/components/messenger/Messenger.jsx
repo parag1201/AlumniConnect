@@ -24,7 +24,6 @@ const Messenger = ({
 	closeSideNav,
 	getOnlineUserData,
 }) => {
-	// const [conversations, setConversations] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [messagesLocal, setMessages] = useState(messages);
 	const [newMessage, setNewMessage] = useState("");
@@ -36,15 +35,6 @@ const Messenger = ({
 	useEffect(() => {
 		socket.current = io("http://localhost:5000");
 		socket.current.on("getMessage", (data) => {
-			// console.log(data);
-			// console.log("hello get message socket")
-			// const message = {
-			// 	sender: data.senderId,
-			// 	text: data.text,
-			// 	conversationId: currentChat._id,
-			// 	createdAt: Date.now(),
-			// };
-
 			setArrivalMessage({
 				sender: data.senderId,
 				text: data.text,
@@ -55,8 +45,15 @@ const Messenger = ({
 	}, []);
 
 	useEffect(() => {
+		closeSideNav();
+		console.log(process.env);
+	}, [])
+	
+	useEffect(() => {
 		setMessages(messages);
+		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
+
 	useEffect(() => {
 		arrivalMessage &&
 			currentChat?.members.includes(arrivalMessage.sender) &&
@@ -64,43 +61,17 @@ const Messenger = ({
 	}, [arrivalMessage, currentChat]);
 
 	useEffect(() => {
+		getConversations(authUser);
 		if (authUser !== null) {
 			socket.current.emit("addUser", authUser._id);
 			socket.current.on("getUsers", async (users) => {
-				const usersOnline = authUser.followings.filter((f) =>
-					users.some((u) => u.userId === f)
-				);
-				// const users_data = await getOnlineUserData(usersOnline);
-				console.log(usersOnline);
+				const usersOnline = authUser.followings.filter((f) => users.some((u) => u.userId == f));
 				setOnlineUsers(usersOnline);
 			});
 		}
 	}, [authUser]);
 
 	useEffect(() => {
-		// if (authUser !== null) {
-		// const getConversations = async () => {
-		// 	try {
-		// 		const res = await axios.get("localhost:5000/api/conversations/" + authUser._id
-		// 		);
-		// 		setConversations(res.data);
-		// 	} catch (err) {
-		// 		console.log(err);
-		// 	}
-		// };
-		getConversations(authUser);
-		// }
-	}, [authUser]);
-
-	useEffect(() => {
-		// const getMessages = async () => {
-		// 	try {
-		// 		const res = await axios.get("/messages/" + currentChat?._id);
-		// 		setMessages(res.data);
-		// 	} catch (err) {
-		// 		console.log(err);
-		// 	}
-		// };
 		getMessages(currentChat);
 	}, [currentChat]);
 
@@ -125,14 +96,6 @@ const Messenger = ({
 				text: newMessage,
 			});
 			scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-
-			// try {
-			// 	const res = await axios.post("/messages", message);
-			// 	// setMessages([...messages, res.data]);
-			// 	setNewMessage("");
-			// } catch (err) {
-			// 	console.log(err);
-			// }
 		}
 	};
 
@@ -140,18 +103,17 @@ const Messenger = ({
 		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages, arrivalMessage]);
 
-	// console.log(conversations);
-	// console.log(process.env)
 	return (
 		<React.Fragment>
 			{/* <Topbar /> */}
 			<div className="messenger">
 				<div className="chatMenu">
 					<div className="chatMenuWrapper">
-						<input
+						{/* <input
 							placeholder="Search for friends"
 							className="chatMenuInput"
-						/>
+						/> */}
+						<p><strong>Active Conversations</strong></p>
 						{conversations.map((c) => (
 							<div
 								onClick={() => setCurrentChat(c)}
@@ -211,11 +173,13 @@ const Messenger = ({
 				</div>
 				{!loadingAuth && (
 					<div className="chatOnline">
+						<p style={{marginTop:"1em", marginLeft: "1em", color:"grey", fontWeight:"500"}}>Online Friends</p>
 						<div className="chatOnlineWrapper">
 							<ChatOnline
 								onlineUsers={onlineUsers}
 								currentId={authUser._id}
 								setCurrentChat={setCurrentChat}
+								getConversations={getConversations}
 							/>
 						</div>
 					</div>

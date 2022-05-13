@@ -38,19 +38,26 @@ const DisplayAchievements = ({ achievements }) => {
 
 	const onChange = (e) => {
 		setMonthValue(e.target.value);
-		const filtered = achievements.filter((item) => {
-			let date_string = item.award_date;
-			let date = date_string.split("-");
-			if (date[1] === e.target.value) {
-				return item;
-			}
-		});
-		setData(filtered);
+		if (e.target.value === "00") {
+			setData(achievements);
+		} else {
+			const filtered = achievements.filter((item) => {
+				let date_string = item.award_date;
+				let date = date_string.split("-");
+				if (date[1] === e.target.value) {
+					return item;
+				}
+			});
+			setData(filtered);
+		}
 	};
 
 	return (
 		<React.Fragment>
-			<ul style={{ marginTop: "0", marginLeft: "30.5em" }} className="award-actions">
+			<ul
+				style={{marginTop: "2em", marginLeft:"5.5em" }}
+				className="award-actions"
+			>
 				<li>
 					<CSVLink
 						{...csvReport}
@@ -81,6 +88,7 @@ const DisplayAchievements = ({ achievements }) => {
 							borderRadius: "4px",
 						}}
 					>
+						<option value="00">All</option>
 						<option value="01">Jan</option>
 						<option value="02">Feb</option>
 						<option value="03">March</option>
@@ -97,7 +105,7 @@ const DisplayAchievements = ({ achievements }) => {
 				</li>
 			</ul>
 			{data.length === 0 && (
-				<div className="no-data-page mt-5">
+				<div className="no-data-page mt-5 request-list-admin-dash">
 					No achievements to display
 				</div>
 			)}

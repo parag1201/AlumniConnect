@@ -65,7 +65,7 @@ router.post(
 				visibleFaculty,
 				visibleAlumni,
 				channel,
-				imagesArray,
+				images,
 			} = req.body;
 
 			visible = [];
@@ -89,7 +89,7 @@ router.post(
 				avatar: user.avatar,
 				user: req.user.id,
 				visibility: visible,
-				images: imagesArray,
+				images: images,
 				channel: channel,
 			});
 
@@ -156,8 +156,8 @@ router.post(
 				visibleStudent,
 				visibleFaculty,
 				visibleAlumni,
-				imagesArray,
 				channel,
+				images,
 			} = req.body;
 
 			var visible = [];
@@ -189,8 +189,8 @@ router.post(
 				name: user.name,
 				avatar: user.avatar,
 				visibility: visible,
-				images: imagesArray,
-				channel: channel
+				images: images,
+				channel: channel,
 			});
 
 			const pst = await post.save();
@@ -221,13 +221,20 @@ router.get("/search", auth, async (req, res) => {
 		const channel_name = req.query.channel_name;
 		var posts = [];
 		if (searchTerm === "") {
-			posts = await Post.find({channel: channel_name}).sort({ date: -1 });
+			posts = await Post.find({ channel: channel_name }).sort({
+				date: -1,
+			});
 		} else {
 			posts = await Post.find(
-				{ $text: { $search: searchTerm} },
-				{ score: { $meta: "textScore" } },
-				{channel: channel_name}
+				{ $text: { $search: searchTerm } },
+				{ score: { $meta: "textScore" } }
 			).sort({ score: { $meta: "textScore" } });
+
+			const tmp = posts.filter((p) => {
+				return p.channel === channel_name;
+			});
+
+			posts = tmp;
 		}
 
 		res.json(posts);

@@ -9,6 +9,7 @@ module.exports = receiveMail = (emailOptions, cb) => {
 			domain: process.env.MAILGUN_DOMAIN,
 		},
 	};
+	
 	const transporter = nodemailer.createTransport(mailGun(auth));
 
 	transporter.sendMail(emailOptions, function (err, data) {

@@ -698,11 +698,14 @@ tr > .btn {
 }
 
 .request-list-admin-dash {
-	margin-left: 10em;
+	margin: auto;
+	margin-top: 20px;
+	height: 700px;
+	overflow-y: scroll;
+
 }
 
 .float-child {
-	width: 50%;
 	float: left;
 }
 
@@ -714,6 +717,7 @@ tr > .btn {
 	justify-content: space-between;
 	border-radius: 5px;
 	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	min-width: 600px;
 }
 
 .action-buttons-request-card {

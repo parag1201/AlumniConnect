@@ -32,7 +32,6 @@ const AchievementCard = ({ data, deleteAchievement }) => {
 				</li>
 				<li>
 					<strong>Award Date : </strong>
-					<Moment format="MM-YYYY">{data.award_date}</Moment>
 					{data.award_date}
 				</li>
 				<li>

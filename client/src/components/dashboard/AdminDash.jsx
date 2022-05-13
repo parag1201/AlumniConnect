@@ -273,106 +273,130 @@ const AdminDash = ({
 						</ul>
 					)}
 				</div>
-				{showAllJoin ? (
-					loading ? (
-						<Spinner />
+				<div className="row">
+					{showAllJoin ? (
+						loading ? (
+							<Spinner />
+						) : (
+							<React.Fragment>
+								{joinRequests !== null &&
+									joinRequests.length === 0 && (
+										<div className="no-data-page">
+											No Join Requests Found
+										</div>
+									)}
+								<div className="request-list-admin-dash float-child">
+									{joinRequests !== null &&
+										joinRequests.map((item) => {
+											return (
+												<JoinRequestCard
+													key={item._id}
+													request={item}
+												/>
+											);
+										})}
+								</div>
+							</React.Fragment>
+						)
 					) : (
+						<React.Fragment />
+					)}
+
+					{showStudentJoin && (
 						<React.Fragment>
-							{joinRequests !== null &&
-								joinRequests.length === 0 && (
-									<div className="no-data-page">
-										No Join Requests Found
+							{studentJoin.length === 0 && (
+								<div className="request-list-admin-dash float-child no-data-page">
+									No Join requests found
+								</div>
+							)}
+							<div className="request-list-admin-dash float-child">
+								{studentJoin.map((item) => {
+									return (
+										<JoinRequestCard
+											key={item._id}
+											request={item}
+										/>
+									);
+								})}
+							</div>
+						</React.Fragment>
+					)}
+
+					{showProfessorJoin && (
+						<React.Fragment>
+							{professorJoin.length === 0 && (
+								<div className="request-list-admin-dash float-child no-data-page">
+									No Join requests found
+								</div>
+							)}
+							<div className="request-list-admin-dash float-child">
+								{professorJoin.map((item) => {
+									return (
+										<JoinRequestCard
+											key={item._id}
+											request={item}
+										/>
+									);
+								})}
+							</div>
+						</React.Fragment>
+					)}
+
+					{showAlumniJoin && (
+						<React.Fragment>
+							{alumniJoin.length === 0 && (
+								<div className="request-list-admin-dash float-child no-data-page">
+									No Join requests found
+								</div>
+							)}
+							<div className="request-list-admin-dash float-child">
+								{alumniJoin.map((item) => {
+									return (
+										<JoinRequestCard
+											key={item._id}
+											request={item}
+										/>
+									);
+								})}
+							</div>
+						</React.Fragment>
+					)}
+
+					{showAllPost ? (
+						loading ? (
+							<Spinner />
+						) : (
+							<React.Fragment>
+								{postRequests.length === 0 && (
+									<div className="no-data-page" style={{textAlign:"center"}}>
+										No Post Requests found
 									</div>
 								)}
-							<div className="request-list-admin-dash float-child">
-								{joinRequests !== null &&
-									joinRequests.map((item) => {
+								<div className="request-list-admin-dash float-child">
+									{postRequests.map((item) => {
 										return (
-											<JoinRequestCard
+											<PostRequestCard
 												key={item._id}
 												request={item}
 											/>
 										);
 									})}
-							</div>
-						</React.Fragment>
-					)
-				) : (
-					<React.Fragment />
-				)}
-
-				{showStudentJoin && (
-					<React.Fragment>
-						{studentJoin.length === 0 && (
-							<div className="request-list-admin-dash float-child no-data-page">
-								No Join requests found
-							</div>
-						)}
-						<div className="request-list-admin-dash float-child">
-							{studentJoin.map((item) => {
-								return (
-									<JoinRequestCard
-										key={item._id}
-										request={item}
-									/>
-								);
-							})}
-						</div>
-					</React.Fragment>
-				)}
-
-				{showProfessorJoin && (
-					<React.Fragment>
-						{professorJoin.length === 0 && (
-							<div className="request-list-admin-dash float-child no-data-page">
-								No Join requests found
-							</div>
-						)}
-						<div className="request-list-admin-dash float-child">
-							{professorJoin.map((item) => {
-								return (
-									<JoinRequestCard
-										key={item._id}
-										request={item}
-									/>
-								);
-							})}
-						</div>
-					</React.Fragment>
-				)}
-
-				{showAlumniJoin && (
-					<React.Fragment>
-						{alumniJoin.length === 0 && (
-							<div className="request-list-admin-dash float-child no-data-page">
-								No Join requests found
-							</div>
-						)}
-						<div className="request-list-admin-dash float-child">
-							{alumniJoin.map((item) => {
-								return (
-									<JoinRequestCard
-										key={item._id}
-										request={item}
-									/>
-								);
-							})}
-						</div>
-					</React.Fragment>
-				)}
-
-				{showAllPost ? (
-					loading ? (
-						<Spinner />
+								</div>
+							</React.Fragment>
+						)
 					) : (
+						<React.Fragment />
+					)}
+
+					{showStudentPost && (
 						<React.Fragment>
-							{postRequests.length === 0 && (
-								<div className="no-data-page">
-									No Post Requests found
+							{studentPost.length === 0 && (
+								<div className="request-list-admin-dash float-child no-data-page">
+									Nothing to show here
 								</div>
 							)}
 							<div className="request-list-admin-dash float-child">
-								{postRequests.map((item) => {
+								{studentPost.map((item) => {
 									return (
 										<PostRequestCard
 											key={item._id}
@@ -382,78 +406,58 @@ const AdminDash = ({
 								})}
 							</div>
 						</React.Fragment>
-					)
-				) : (
-					<React.Fragment />
-				)}
+					)}
 
-				{showStudentPost && (
-					<React.Fragment>
-						{studentPost.length === 0 && (
-							<div className="request-list-admin-dash float-child no-data-page">
-								Nothing to show here
+					{showProfessorPost && (
+						<React.Fragment>
+							{professorPost.length === 0 && (
+								<div className="request-list-admin-dash float-child no-data-page">
+									Nothing to show here
+								</div>
+							)}
+							<div className="request-list-admin-dash float-child">
+								{professorPost.map((item) => {
+									return (
+										<PostRequestCard
+											key={item._id}
+											request={item}
+										/>
+									);
+								})}
 							</div>
-						)}
-						<div className="request-list-admin-dash float-child">
-							{studentPost.map((item) => {
-								return (
-									<PostRequestCard
-										key={item._id}
-										request={item}
-									/>
-								);
-							})}
-						</div>
-					</React.Fragment>
-				)}
+						</React.Fragment>
+					)}
 
-				{showProfessorPost && (
-					<React.Fragment>
-						{professorPost.length === 0 && (
-							<div className="request-list-admin-dash float-child no-data-page">
-								Nothing to show here
+					{showAlumniPost && (
+						<React.Fragment>
+							{alumniPost.length === 0 && (
+								<div className="request-list-admin-dash float-child no-data-page">
+									Nothing to show here
+								</div>
+							)}
+							<div className="request-list-admin-dash float-child">
+								{alumniPost.map((item) => {
+									return (
+										<PostRequestCard
+											key={item._id}
+											request={item}
+										/>
+									);
+								})}
 							</div>
-						)}
-						<div className="request-list-admin-dash float-child">
-							{professorPost.map((item) => {
-								return (
-									<PostRequestCard
-										key={item._id}
-										request={item}
-									/>
-								);
-							})}
-						</div>
-					</React.Fragment>
-				)}
+						</React.Fragment>
+					)}
 
-				{showAlumniPost && (
-					<React.Fragment>
-						{alumniPost.length === 0 && (
-							<div className="request-list-admin-dash float-child no-data-page">
-								Nothing to show here
-							</div>
-						)}
-						<div className="request-list-admin-dash float-child">
-							{alumniPost.map((item) => {
-								return (
-									<PostRequestCard
-										key={item._id}
-										request={item}
-									/>
-								);
-							})}
-						</div>
-					</React.Fragment>
-				)}
-
-				{showAchievements && (
-					<DisplayAchievments achievements={extras.achievements} />
-				)}
-				{showFeedbacks && (
-					<DisplayFeedbacks feedbacks={extras.feedbacks} />
-				)}
-				{showSettings && <Settings />}
+					{showAchievements && (
+						<DisplayAchievments
+							achievements={extras.achievements}
+						/>
+					)}
+					{showFeedbacks && (
+						<DisplayFeedbacks feedbacks={extras.feedbacks} />
+					)}
+					{showSettings && <Settings />}
+				</div>
 			</div>
 		</React.Fragment>
 	);

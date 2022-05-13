@@ -88,6 +88,11 @@ const Navbar = ({
 				</Link>
 			</li>
 			<li>
+				<Link to="/messenger" className="navbar-link">
+					<span className="hide-sm">Messenger</span>
+				</Link>
+			</li>
+			<li>
 				<Link to="/profiles?query=" className="navbar-link">
 					<span className="hide-sm">Members</span>
 				</Link>
@@ -101,6 +106,7 @@ const Navbar = ({
 					)}
 				</Link>
 			</li>
+
 			<li>
 				<Link to="/feed/topic/Placements" className="navbar-link">
 					<span className="hide-sm">Feed</span>

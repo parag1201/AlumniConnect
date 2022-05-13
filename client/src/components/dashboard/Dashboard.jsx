@@ -46,70 +46,94 @@ const Dashboard = ({ closeSideNav, auth: { authUser, loadingAuth } }) => {
 									}}
 								/>
 							</div>
-							<span>{authUser.name}</span>
-							<span className="job_post">
-									{authUser.role === "alumni" && (
-										<span
-											style={{
-												textTransform: "capitalize",
-											}}
-										>
-											{authUser.designation}
-											{" @ "}
-											{authUser.organisation}
-										</span>
-									)}
+							<div>
+								<p>
+									<span
+										style={{
+											fontSize: "1.5rem",
+											paddingLeft: "0.5em",
+											paddingRight: "0.5em",
+											marginLeft:"1em",
+										}}
+									>
+										{authUser.name}
+									</span>
+								</p>
+								<p>
+									<span
+										className="job_post"
+										style={{
+											fontSize: "1.5rem",
+											paddingLeft: "0.5em",
+											paddingRight: "0.5em",
+											marginLeft:"1em",
+											float: "right"
+										}}
+									>
+										{authUser.role === "alumni" && (
+											<span
+												style={{
+													textTransform: "capitalize",
+												}}
+											>
+												{authUser.designation}
+												{" @ "}
+												{authUser.organisation}
+											</span>
+										)}
 
-									{authUser.role === "student" &&
-										"Student @ IIITA"}
+										{authUser.role === "student" &&
+											"Student @ IIITA"}
 
-									{authUser.role === "faculty" && (
-										<span
-											style={{
-												textTransform: "capitalize",
-											}}
-										>
-											{authUser.designation}
-										</span>
-									)}
+										{authUser.role === "faculty" && (
+											<span
+												style={{
+													textTransform: "capitalize",
+												}}
+											>
+												{authUser.designation}
+											</span>
+										)}
 
-									{authUser.role === "faculty" &&
-										"@ Department of"}
+										{authUser.role === "faculty" &&
+											"@ Department of "}
 
-									{authUser.role === "faculty" && (
-										<span
-											style={{
-												textTransform: "uppercase",
-											}}
-										>
-											{authUser.department}
-										</span>
-									)}
-								</span>
+										{authUser.role === "faculty" && (
+											<span
+												style={{
+													textTransform: "uppercase",
+												}}
+											>
+												{authUser.department}
+											</span>
+										)}
+									</span>
 
-								{authUser.role === "student" && (
-									<p>
-										{authUser.starting_year}-
-										{authUser.passing_year}
-									</p>
-								)}
-
-								{authUser.role === "alumni" && (
-									<div>
-										<p style={{ marginBottom: "0" }}>
-											{authUser.location}
-										</p>
-										{/* <br/> */}
+									{authUser.role === "student" && (
 										<p>
-											{"Alumni @ IIITA"}
-											{" ( "}
+											{authUser.starting_year}-
 											{authUser.passing_year}
-											{" Passout )"}
 										</p>
-									</div>
-								)}
+									)}
+
+									{authUser.role === "alumni" && (
+										<div>
+											<p style={{ marginBottom: "0" }}>
+												{authUser.location}
+											</p>
+											{/* <br/> */}
+											<p>
+												{"Alumni @ IIITA"}
+												{" ( "}
+												{authUser.passing_year}
+												{" Passout )"}
+											</p>
+										</div>
+									)}
+								</p>
+							</div>
 						</div>
-						
+
 						<Experience experience={authUser.experience} />
 						<Education education={authUser.education} />
 					</div>

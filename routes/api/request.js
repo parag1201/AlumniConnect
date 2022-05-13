@@ -11,6 +11,7 @@ const Post = require("../../models/Post");
 const sendEmail = require("../../utils/sendEmail");
 const Channel = require("../../models/Channel");
 
+// get join requests from db
 router.get("/join", authAdmin, async (req, res) => {
 	try {
 		const requests = await JoinRequest.find();
@@ -21,6 +22,7 @@ router.get("/join", authAdmin, async (req, res) => {
 	}
 });
 
+// get join requests by user role  /join/student
 router.get("/join/:filter", authAdmin, async (req, res) => {
 	try {
 		const requests = await JoinRequest.find({ role: req.params.filter });
@@ -41,6 +43,7 @@ router.get("/post", authAdmin, async (req, res) => {
 	}
 });
 
+// role based filter
 router.get("/post/:filter", authAdmin, async (req, res) => {
 	try {
 		const postRequests = await PostRequest.find({
@@ -52,6 +55,7 @@ router.get("/post/:filter", authAdmin, async (req, res) => {
 		return res.status(500).send("Server Error");
 	}
 });
+
 
 router.get("/join/:id/approve", authAdmin, async (req, res) => {
 	try {

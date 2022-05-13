@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { createPost, createPostRequest, getRequirePostApproval } from "../../actions/post";
+import {
+	createPost,
+	createPostRequest,
+	getRequirePostApproval,
+} from "../../actions/post";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import parse from "html-react-parser";
 import { setAlert } from "../../actions/alert";
 import { getAllChannels } from "../../actions/channel";
+import axios from "axios";
 
 const PostForm = ({
 	createPost,
@@ -28,6 +33,8 @@ const PostForm = ({
 	const [visibleAlumni, setVisibleAlumni] = useState(false);
 	const [channels, setChannels] = useState([]);
 
+	const [image, setImage] = useState("");
+
 	useEffect(async () => {
 		await getRequirePostApproval();
 		const result = await getAllChannels();
@@ -38,6 +45,7 @@ const PostForm = ({
 	const onSubmit = async (e) => {
 		// console.log(channel);
 		e.preventDefault();
+
 		if (
 			visibleAlumni === false &&
 			visibleFaculty === false &&
@@ -46,7 +54,19 @@ const PostForm = ({
 			setAlert("Please check atleast one checkbox", "danger");
 		} else {
 			let success = 0;
-			console.log()
+			// console.log()
+			const formData1 = new FormData();
+			formData1.append("file", image);
+
+			const config = {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			};
+
+			const res1 = await axios.post("/upload-image", formData1, config);
+			const images = [];
+			images.push(res1.data);
 			if (requireApproval) {
 				success = await createPostRequest({
 					text,
@@ -55,6 +75,7 @@ const PostForm = ({
 					visibleFaculty,
 					visibleAlumni,
 					channel,
+					images,
 				});
 			} else {
 				success = await createPost({
@@ -64,6 +85,7 @@ const PostForm = ({
 					visibleFaculty,
 					visibleAlumni,
 					channel,
+					images,
 				});
 			}
 
@@ -102,6 +124,14 @@ const PostForm = ({
 								setText(data);
 							}}
 							required
+						/>
+					</div>
+					<div className="form-group">
+						<label>Attach Images</label>
+						<input
+							type="file"
+							accept="image/*"
+							onChange={(e) => setImage(e.target.files[0])}
 						/>
 					</div>
 					{/* <div className="form-group">

@@ -95,10 +95,10 @@ const ProfileTop = ({
 			<div className="col-md-9">
 				<div className="profile-stats">
 					<ul>
-						<li>
+						{/* <li>
 							<span className="profile-stat-count">164</span>{" "}
 							posts
-						</li>
+						</li> */}
 						<li>
 							<span className="profile-stat-count">
 								{profile.followers.length}

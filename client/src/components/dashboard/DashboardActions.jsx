@@ -7,7 +7,7 @@ import { deleteAccount } from "../../actions/users";
 const DashboardActions = ({ deleteAccount }) => {
 	return (
 		<div className="my-3 mx-4">
-			<Link
+			{/* <Link
 				to="/edit-profile"
 				className="btn btn-light"
 				style={{ width: "100%", marginBottom: "1em" }}
@@ -17,7 +17,7 @@ const DashboardActions = ({ deleteAccount }) => {
 					style={{ marginRight: "0.5em" }}
 				></i>
 				Edit Profile
-			</Link>
+			</Link> */}
 			<Link
 				to="/add-experience"
 				className="btn btn-light"

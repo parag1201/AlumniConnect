@@ -34,6 +34,7 @@ const PostRequestSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	images: [String]
 });
 
 module.exports = mongoose.model("post-requests", PostRequestSchema);
