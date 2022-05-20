@@ -25,7 +25,7 @@ connectDB();
 // init middleware for parsing
 app.use(express.json({ extended: false }));
 
-app.get("/", (req, res) => res.send("API is running"));
+// app.get("/", (req, res) => res.send("API is running"));
 
 // define routes
 app.use("/api/users", require("./routes/api/users"));
@@ -64,7 +64,7 @@ var storage_folder = multer.diskStorage({
 
 const upload = multer({ storage: storage_folder });
 
-app.use(cors());
+// app.use(cors());
 
 // upgradeUser();
 
@@ -123,6 +123,12 @@ io.on("connection", (socket) => {
 		io.emit("getUsers", users);
 	});
 });
+
+app.use(express.static('client/build'));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+})
 
 // schedule.scheduleJob("*/2 * * * * *", async () => {
 // 	console.log("user upgrade job running");

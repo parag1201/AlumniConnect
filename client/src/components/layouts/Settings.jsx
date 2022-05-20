@@ -139,7 +139,7 @@ Settings.propTypes = {
 	setRequirePostApproval: PropTypes.func.isRequired,
 	getRequirePostApproval: PropTypes.func.isRequired,
 	post: PropTypes.object.isRequired,
-	createChannel: PropTypes.object.isRequired,
+	createChannel: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

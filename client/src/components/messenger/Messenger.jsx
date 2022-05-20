@@ -46,7 +46,6 @@ const Messenger = ({
 
 	useEffect(() => {
 		closeSideNav();
-		console.log(process.env);
 	}, [])
 	
 	useEffect(() => {
