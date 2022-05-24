@@ -167,6 +167,7 @@ function Footer() {
 				<a
 					href="https://www.linkedin.com/in/iiita-alumni-affairs/"
 					target="_blank"
+					rel="noreferrer"
 				>
 					{" "}
 					IIITA Alumni Affairs

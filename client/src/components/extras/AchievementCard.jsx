@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { deleteAchievement } from "../../actions/extras";
 import { connect } from "react-redux";
-import Moment from "react-moment";
 
 const AchievementCard = ({ data, deleteAchievement }) => {
 	return (
@@ -40,12 +39,12 @@ const AchievementCard = ({ data, deleteAchievement }) => {
 				</li>
 				<div className="row">
 					<li className="mr-2 ml-3">
-						<a target="_blank" href={`http://localhost:5000/awards/${data.imgUrl}`}>
+						<a target="_blank" href={`http://localhost:5000/awards/${data.imgUrl}`} rel="noreferrer">
 							View Image
 						</a>
 					</li>
 					<li className="ml-1">
-						<a target="_blank" href={`http://localhost:5000/awards/${data.proofUrl}`}>
+						<a target="_blank" href={`http://localhost:5000/awards/${data.proofUrl}`} rel="noreferrer">
 							View Certificate
 						</a>
 					</li>

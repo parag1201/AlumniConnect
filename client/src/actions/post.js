@@ -266,10 +266,9 @@ export const setRequirePostApproval = (value) => async (dispatch) => {
 
 		console.log("inside set function actions");
 		console.log(value);
-		const res = await axios.put("/api/posts/settings/set", body, config);
+		await axios.put("/api/posts/settings/set", body, config);
 
 		console.log("request completed");
-		// this action is not getting dispatched
 		dispatch({
 			type: SET_POST_SETTING,
 			payload: value,

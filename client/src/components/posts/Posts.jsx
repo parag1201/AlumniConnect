@@ -6,7 +6,7 @@ import Spinner from "../layouts/Spinner";
 import PostCard from "./PostCard";
 import { Link } from "react-router-dom";
 import { closeSideNav } from "../../actions/alert";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { getAllChannels } from "../../actions/channel";
 
 function useQuery() {
@@ -19,22 +19,20 @@ const Posts = ({
 	getAllChannels,
 	post: { posts, loading },
 	auth: { authUser, loadingAuth },
+	extras: { channels },
 	match,
 }) => {
-
-
 	const query = useQuery();
-	const searchQuery = query.get('search');
+	const searchQuery = query.get("search");
 	const [search, setSearch] = useState("");
-	const [channels, setChannels] = useState([]);
 
-	// console.log(match.params);
-	// console.log(searchQuery);
-	useEffect(async () => {
-		closeSideNav();
-		getPosts(searchQuery, match.params.channel_name);
-		const result = await getAllChannels();
-		setChannels(result);
+	useEffect(() => {
+		async function getMyData() {
+			closeSideNav();
+			getAllChannels();
+			await getPosts(searchQuery, match.params.channel_name);
+		}
+		getMyData();
 	}, [match.params.channel_name]);
 
 	// const onSubmit = (e) => {
@@ -43,10 +41,10 @@ const Posts = ({
 	// };
 
 	const searchPosts = () => {
-		if(search.trim()){
-			getPosts(searchQuery, match.params.channel_name)
+		if (search.trim()) {
+			getPosts(searchQuery, match.params.channel_name);
 		}
-	}
+	};
 
 	return loading ? (
 		<Spinner />
@@ -72,7 +70,7 @@ const Posts = ({
 						>
 							<strong>Channels</strong>
 						</li>
-						{channels.map((c) => {
+						{channels !== null && channels.map((c) => {
 							return (
 								<li
 									key={c._id}
@@ -105,10 +103,7 @@ const Posts = ({
 								></i>
 								Create Post
 							</Link>
-							<form
-								method="get"
-								className="col-9 search-form"
-							>
+							<form method="get" className="col-9 search-form">
 								<input
 									type="text"
 									name="search"
@@ -160,6 +155,8 @@ const Posts = ({
 };
 
 Posts.propTypes = {
+	auth: PropTypes.object.isRequired,
+	extras: PropTypes.object.isRequired,
 	post: PropTypes.object.isRequired,
 	getPosts: PropTypes.func.isRequired,
 	closeSideNav: PropTypes.func.isRequired,
@@ -169,6 +166,7 @@ Posts.propTypes = {
 const mapStateToProps = (state) => ({
 	post: state.post,
 	auth: state.auth,
+	extras: state.extras,
 });
 
 export default connect(mapStateToProps, {

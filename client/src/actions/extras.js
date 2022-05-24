@@ -18,7 +18,7 @@ export const submitAchievement =
 				"Content-Type": "application/json",
 			},
 		};
-		console.log("inside actions file")
+		console.log("inside actions file");
 		console.log(formInput);
 		console.log(imgUrl);
 		console.log(proofUrl);
@@ -28,11 +28,7 @@ export const submitAchievement =
 			proofUrl,
 		};
 		try {
-			const res = await axios.post(
-				"/api/extras/add-achievement",
-				data,
-				config
-			);
+			await axios.post("/api/extras/add-achievement", data, config);
 
 			dispatch(setAlert("Submit Success", "safe"));
 			return 1;
@@ -56,11 +52,7 @@ export const submitFeedback = (formInput) => async (dispatch) => {
 	};
 
 	try {
-		const res = await axios.post(
-			"/api/extras/submit-feedback",
-			formInput,
-			config
-		);
+		await axios.post("/api/extras/submit-feedback", formInput, config);
 		dispatch(setAlert("Submit Success", "safe"));
 		return 1;
 	} catch (err) {

@@ -155,7 +155,7 @@ export const forgotPassword = (formData) => async (dispatch) => {
 		},
 	};
 	try {
-		const res = await axios.post(
+		await axios.post(
 			"/api/auth/forgot-password",
 			formData,
 			config
@@ -182,7 +182,7 @@ export const resetPassword = (formInput, user_id, reset_token) => async (dispatc
 	const { password, password_confirm } = formInput;
 	const body = { password, password_confirm, user_id, reset_token };
 	try {
-		const res = await axios.post(
+		await axios.post(
 			"/api/auth/reset-password",
 			body,
 			config
@@ -208,7 +208,7 @@ export const verifyResetLink = (user_id, reset_token) => async (dispatch) => {
 	const body = { user_id, reset_token };
 
 	try {
-		const res = await axios.post("/api/auth/verify-reset-link", body, config);
+		await axios.post("/api/auth/verify-reset-link", body, config);
 		return 1;
 	} catch (e) {
 		const errors = e.response.data.errors;

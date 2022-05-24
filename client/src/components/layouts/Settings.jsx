@@ -40,9 +40,12 @@ const Settings = ({
 		p: 4,
 	};
 
-	useEffect(async () => {
-		await getRequirePostApproval();
-		setPostApproval(requireApproval);
+	useEffect(() => {
+		async function getData() {
+			await getRequirePostApproval();
+			setPostApproval(requireApproval);
+		}
+		getData();
 	}, []);
 
 	useEffect(() => {

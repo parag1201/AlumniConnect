@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layouts/Spinner";
 import PropTypes from "prop-types";
@@ -64,6 +64,7 @@ const PostDisplay = ({
 									return (
 										<img
 											key={image_name}
+											alt="uploaded_image"
 											src={`http://localhost:5000/awards/${image_name}`}
 											style={{
 												maxHeight: "500px",

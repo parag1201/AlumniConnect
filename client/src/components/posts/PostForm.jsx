@@ -24,6 +24,7 @@ const PostForm = ({
 	post: {
 		settings: { requireApproval },
 	},
+	extras: { channels },
 }) => {
 	const [text, setText] = useState("");
 	const [heading, setHeading] = useState("");
@@ -31,15 +32,15 @@ const PostForm = ({
 	const [visibleStudent, setVisibleStudent] = useState(false);
 	const [visibleFaculty, setVisibleProf] = useState(false);
 	const [visibleAlumni, setVisibleAlumni] = useState(false);
-	const [channels, setChannels] = useState([]);
 
 	const [image, setImage] = useState("");
 
-	useEffect(async () => {
-		await getRequirePostApproval();
-		const result = await getAllChannels();
-		setChannels(result);
-		console.log(requireApproval);
+	useEffect(() => {
+		async function myfunction() {
+			await getRequirePostApproval();
+			await getAllChannels();
+		}
+		myfunction();
 	}, []);
 
 	const onSubmit = async (e) => {
@@ -60,16 +61,20 @@ const PostForm = ({
 					"Content-Type": "multipart/form-data",
 				},
 			};
-			
+
 			const images = [];
-			
-			if(image !== ""){
+
+			if (image !== "") {
 				const formData1 = new FormData();
 				formData1.append("file", image);
-				const res1 = await axios.post("/upload-image", formData1, config);
+				const res1 = await axios.post(
+					"/upload-image",
+					formData1,
+					config
+				);
 				images.push(res1.data);
 			}
-			
+
 			if (requireApproval) {
 				success = await createPostRequest({
 					text,
@@ -210,7 +215,7 @@ const PostForm = ({
 									setChannel(event.target.value)
 								}
 							>
-								{channels.map((c) => {
+								{channels !== null && channels.map((c) => {
 									return (
 										<option value={c.name} key={c._id}>
 											{c.name}
@@ -259,12 +264,14 @@ PostForm.propTypes = {
 	createPostRequest: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	post: PropTypes.object.isRequired,
+	extras: PropTypes.object.isRequired,
 	getAllChannels: PropTypes.func.isRequired,
 	getRequirePostApproval: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	post: state.post,
+	extras: state.extras,
 });
 
 export default connect(mapStateToProps, {

@@ -3,7 +3,6 @@ import Conversation from "../conversations/Conversation";
 import Message from "../message/Message";
 import ChatOnline from "../chatOnline/ChatOnline";
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import { io } from "socket.io-client";
 import PropTypes from "prop-types";
@@ -64,7 +63,7 @@ const Messenger = ({
 		if (authUser !== null) {
 			socket.current.emit("addUser", authUser._id);
 			socket.current.on("getUsers", async (users) => {
-				const usersOnline = authUser.followings.filter((f) => users.some((u) => u.userId == f));
+				const usersOnline = authUser.followings.filter((f) => users.some((u) => u.userId === f));
 				setOnlineUsers(usersOnline);
 			});
 		}

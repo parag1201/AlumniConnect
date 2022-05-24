@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { closeSideNav } from "../../actions/alert";
 import { resetPassword, verifyResetLink } from "../../actions/auth";
 import PropTypes from "prop-types";

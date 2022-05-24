@@ -7,11 +7,15 @@ import {
 	DELETE_FEEDBACK,
 	DELETE_ALL_ACHIVEMENTS,
 	DELETE_ALL_FEEDBACKS,
+	GET_CHANNELS,
+	CHANNELS_ERROR,
+	CREATE_CHANNEL,
 } from "../actions/types";
 
 const initialState = {
 	feedbacks: [],
 	achievements: [],
+	channels: [],
 	loading: true,
 	error: {},
 };
@@ -53,6 +57,18 @@ export default function extrasReducer(state = initialState, action) {
 				achievements: state.achievements.filter(
 					(item) => item._id !== payload
 				),
+				loading: false,
+			};
+		case GET_CHANNELS:
+			return {
+				...state,
+				channels: payload,
+				loading: false,
+			};
+		case CHANNELS_ERROR:
+			return {
+				...state,
+				error: payload,
 				loading: false,
 			};
 		case DELETE_ALL_ACHIVEMENTS:

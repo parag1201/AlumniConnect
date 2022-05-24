@@ -6,7 +6,6 @@ import UserCard from "./UserCard";
 import { useLocation } from "react-router-dom";
 import { getUsers, getUsersByType } from "../../actions/users";
 import { closeSideNav } from "../../actions/alert";
-import { Modal, Button, Typography, Box } from "@mui/material";
 import UsersByType from "./UsersByType";
 
 function useQuery() {
@@ -94,10 +93,10 @@ const Profiles = ({
 						style={{ textAlign: "center" }}
 					>
 						<ul className="profile-stats">
-							<UsersByType users={alumni} label={"Alumni"} />
-							<UsersByType users={students} label={"Students"} />
-							<UsersByType users={faculty} label={"Faculty"} />
-							<UsersByType users={admins} label={"Admin"} />
+							<UsersByType users={alumni} label={"Alumni"} key="alumni_count"/>
+							<UsersByType users={students} label={"Students"} key="student_count"/>
+							<UsersByType users={faculty} label={"Faculty"} key="faculty_count"/>
+							<UsersByType users={admins} label={"Admin"} key="admin_count"/>
 						</ul>
 					</div>
 					<h5

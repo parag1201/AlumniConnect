@@ -1,5 +1,4 @@
 import "./message.css";
-import {format} from "timeago";
 import Moment from "react-moment";
 
 export default function Message({ message, own }) {

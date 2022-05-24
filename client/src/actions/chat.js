@@ -1,5 +1,4 @@
 import axios from "axios";
-import { setAlert } from "./alert";
 import {
 	GET_CONVERSATIONS,
 	GET_MESSAGES,

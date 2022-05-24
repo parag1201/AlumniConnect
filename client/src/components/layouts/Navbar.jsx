@@ -161,13 +161,13 @@ const Navbar = ({
 	const authLinksSideBarClosedOthers = (
 		<ul>
 			<li>
-				<a
+				<button
 					className="navbar-link hamburger-icon"
 					style={{ fontSize: "1.5em" }}
 					onClick={() => openSideNav()}
 				>
 					<i className="fas fa-bars"></i>
-				</a>
+				</button>
 			</li>
 			<ul className="nav-links">{authLinksOther}</ul>
 		</ul>
@@ -176,13 +176,13 @@ const Navbar = ({
 	const authLinksSideBarClosedAdmin = (
 		<ul>
 			<li>
-				<a
+				<button
 					className="navbar-link hamburger-icon"
-					style={{ fontSize: "1.5em" }}
+					style={{ fontSize: "1.5em", outline:"none", backgroundColor:"white", border:"none" }}
 					onClick={() => openSideNav()}
 				>
 					<i className="fas fa-bars"></i>
-				</a>
+				</button>
 			</li>
 			<ul className="nav-links">{authLinksAdmin}</ul>
 		</ul>
@@ -191,13 +191,13 @@ const Navbar = ({
 	const guestLinksSideBarClosed = (
 		<ul>
 			<li>
-				<a
+				<button
 					className="navbar-link hamburger-icon"
-					style={{ fontSize: "1.5em" }}
+					style={{ fontSize: "1.5em", outline:"none", backgroundColor:"white", border:"none" }}
 					onClick={() => openSideNav()}
 				>
 					<i className="fas fa-bars"></i>
-				</a>
+				</button>
 			</li>
 			<ul className="nav-links">{guestLinks}</ul>
 		</ul>
@@ -223,13 +223,13 @@ const Navbar = ({
 			<Fragment>
 				{sideNavOpen && (
 					<div className="side-panel">
-						<a
-							style={{ fontSize: "1.5em" }}
+						<button
+							style={{ fontSize: "1.5em",outline:"none", backgroundColor:"white", border:"none"  }}
 							className="navbar-link nav-close-icon"
 							onClick={() => closeSideNav()}
 						>
 							<i className="fas fa-times"></i>
-						</a>
+						</button>
 						{!loadingAuth && (
 							<ul className="side-panel-links">
 								<React.Fragment>

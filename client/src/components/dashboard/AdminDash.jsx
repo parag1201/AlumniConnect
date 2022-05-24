@@ -74,10 +74,17 @@ const AdminDash = ({
 			switch (filter) {
 				case "student":
 					setStudentJoin(filteredRequests);
+					break
 				case "alumni":
 					setAlumniJoin(filteredRequests);
+					break
 				case "professor":
 					setProfessorJoin(filteredRequests);
+					break
+				default:
+					setStudentJoin([])
+					setAlumniJoin([])
+					setProfessorJoin([])
 			}
 		}
 	};
@@ -91,10 +98,17 @@ const AdminDash = ({
 			switch (filter) {
 				case "student":
 					setStudentPost(filteredRequests);
+					break
 				case "alumni":
 					setAlumniPost(filteredRequests);
+					break
 				case "professor":
 					setProfessorPost(filteredRequests);
+					break
+				default:
+					setStudentPost([])
+					setAlumniPost([])
+					setProfessorPost([])
 			}
 		}
 	};

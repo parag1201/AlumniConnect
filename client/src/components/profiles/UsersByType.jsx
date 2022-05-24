@@ -42,7 +42,7 @@ const UsersByType = ({ users, label }) => {
 			>
 				<Box sx={style}>
 					{users.map((user) => {
-						return <UserCardModal profile={user} />;
+						return <UserCardModal profile={user} key={user._id}/>;
 					})}
 				</Box>
 			</Modal>

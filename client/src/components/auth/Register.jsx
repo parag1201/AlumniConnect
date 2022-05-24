@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { setAlert, closeSideNav } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import PropTypes from "prop-types";

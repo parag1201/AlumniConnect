@@ -34,6 +34,7 @@ const PostCard = ({
 					<Link to={`/profile/${user}`}>
 						<img
 							className="rounded-circle"
+							alt="avatar"
 							src={avatar}
 							width="45"
 						/>
